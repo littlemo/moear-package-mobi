@@ -48,6 +48,8 @@ class Mobi(base.PackageBase):
         language = spidermeta.get('language', 'zh-cn')
         book_mode = spidermeta.get('book_mode', 'periodical')
         timestamp = spidermeta.get('timestamp', datetime.datetime.now())
+        img_cover = spidermeta.get(
+            'img_cover', self.settings.get('img_cover'))
         img_masthead = spidermeta.get(
             'img_masthead', self.settings.get('img_masthead'))
 
@@ -71,3 +73,9 @@ class Mobi(base.PackageBase):
         id_, href = oeb.manifest.generate('masthead', img_masthead)
         oeb.manifest.add(id_, href, makeoeb.MimeFromFilename(img_masthead))
         oeb.guide.add('masthead', 'Masthead Image', href)
+
+        # guide, cover
+        id_, href = oeb.manifest.generate('cover', img_cover)
+        item = oeb.manifest.add(id_, href, makeoeb.MimeFromFilename(img_cover))
+        oeb.guide.add('cover', 'Cover', href)
+        oeb.metadata.add('cover', id_)
