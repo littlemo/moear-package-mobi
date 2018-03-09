@@ -33,6 +33,7 @@ class Mobi(base.PackageBase):
         :params usermeta dict: 指定用户的package相关配置元数据
         :returns: byteStringIO, 返回生成的书籍打包输出对象
         """
+        # 准备基础参数
         opts = None
         oeb = None
 
@@ -43,11 +44,14 @@ class Mobi(base.PackageBase):
         display_name = spider.get('display_name', '')
 
         device = usermeta.get('moear.package.device', 'kindle').lower()
+
+        language = spidermeta.get('language', 'zh-cn')
         book_mode = spidermeta.get('book_mode', 'periodical')
         timestamp = spidermeta.get('timestamp', datetime.datetime.now())
         img_masthead = spidermeta.get(
             'img_masthead', self.settings.get('img_masthead'))
 
+        # 创建并配置OEB对象
         opts = makeoeb.getOpts(device, book_mode)
         oeb = makeoeb.CreateOeb(_log, None, opts)
 
@@ -57,8 +61,6 @@ class Mobi(base.PackageBase):
 
         pubtype = 'periodical:magazine:KindleEar' if book_mode != 'comic' \
             else 'book:book:KindleEar'
-
-        language = spidermeta.get('language', 'zh-cn')
 
         makeoeb.setMetaData(
             oeb, book_title, language,
