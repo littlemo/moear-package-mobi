@@ -45,6 +45,9 @@ class Mobi(base.PackageBase):
         device = usermeta.get('moear.package.device', 'kindle').lower()
         book_mode = spidermeta.get('book_mode', 'periodical')
         timestamp = spidermeta.get('timestamp', datetime.datetime.now())
+        img_masthead = spidermeta.get(
+            'img_masthead', self.settings.get('img_masthead'))
+
         opts = makeoeb.getOpts(device, book_mode)
         oeb = makeoeb.CreateOeb(_log, None, opts)
 
@@ -62,3 +65,7 @@ class Mobi(base.PackageBase):
             timestamp.strftime('%Y%m%d%H%M%S'), pubtype=pubtype)
         oeb.container = makeoeb.ServerContainer(_log)
 
+        # guide, masthead
+        id_, href = oeb.manifest.generate('masthead', img_masthead)
+        oeb.manifest.add(id_, href, makeoeb.MimeFromFilename(img_masthead))
+        oeb.guide.add('masthead', 'Masthead Image', href)
