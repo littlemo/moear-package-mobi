@@ -87,12 +87,11 @@ class Mobi(base.PackageBase):
         oeb.guide.add('cover', 'Cover', href)
         oeb.metadata.add('cover', id_)
 
+        # 插入目录
         sections = data
         toc_thumbnails = {}
-
         insertHtmlToc = toc_desc_generate
         insertThumbnail = toc_thumbnail_generate
-
         self.insert_toc(
             oeb, sections, toc_thumbnails, insertHtmlToc, insertThumbnail)
 
