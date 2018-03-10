@@ -17,6 +17,13 @@ class Mobi(base.PackageBase):
 
     用以实现mobi打包工具
     """
+    def __init__(self, *args, **kwargs):
+        super(Mobi, self).__init__(*args, **kwargs)
+
+        # 钩子配置，用以在全局变量初始化后进行当前打包类的定制配置
+        # 注意此处应配置打包类相关的定制配置，具体爬虫相关的配置应设置在相应爬虫的元数据中
+        self.configure({})
+
     def generate(self, data, spider, usermeta, *args, **kwargs):
         """
         生成
