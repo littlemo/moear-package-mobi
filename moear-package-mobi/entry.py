@@ -83,7 +83,7 @@ class Mobi(base.PackageBase):
 
         # guide, cover
         id_, href = oeb.manifest.generate('cover', img_cover)
-        item = oeb.manifest.add(id_, href, makeoeb.MimeFromFilename(img_cover))
+        oeb.manifest.add(id_, href, makeoeb.MimeFromFilename(img_cover))
         oeb.guide.add('cover', 'Cover', href)
         oeb.metadata.add('cover', id_)
 
