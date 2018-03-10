@@ -33,7 +33,7 @@ class Mobi(base.PackageBase):
         :params spider dict: 指定爬虫的信息数据(包括 'meta' 字段的元数据字典，
             其中需包含书籍名称用的时间戳)
         :params usermeta dict: 指定用户的package相关配置元数据
-        :returns: byteStringIO, 返回生成的书籍打包输出对象
+        :returns: str, 返回生成的书籍打包输出字符串
         """
         # 准备基础参数
         opts = None
@@ -95,3 +95,10 @@ class Mobi(base.PackageBase):
 
         self.insert_toc(
             oeb, sections, toc_thumbnails, insertHtmlToc, insertThumbnail)
+
+        # 转换输出
+        oIO = byteStringIO()
+        o = MOBIOutput()
+        o.convert(oeb, oIO, opts, _log)
+        _log.info("%s.mobi Sent!" % (book_title))
+        return str(oIO.getvalue())
