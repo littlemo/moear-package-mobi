@@ -3,6 +3,8 @@ import datetime
 
 from moear_api_common import base
 from moear_api_common.utils import makeoeb
+from calibre.ebooks.conversion.mobioutput import MOBIOutput
+from calibre.utils.bytestringio import byteStringIO
 
 
 log = logging.getLogger(__name__)
@@ -52,6 +54,11 @@ class Mobi(base.PackageBase):
             'img_cover', self.settings.get('img_cover'))
         img_masthead = spidermeta.get(
             'img_masthead', self.settings.get('img_masthead'))
+        toc_desc_generate = spidermeta.get(
+            'toc_desc_generate', self.settings.get('toc_desc_generate'))
+        toc_thumbnail_generate = spidermeta.get(
+            'toc_thumbnail_generate',
+            self.settings.get('toc_thumbnail_generate'))
 
         # 创建并配置OEB对象
         opts = makeoeb.getOpts(device, book_mode)
@@ -79,3 +86,12 @@ class Mobi(base.PackageBase):
         item = oeb.manifest.add(id_, href, makeoeb.MimeFromFilename(img_cover))
         oeb.guide.add('cover', 'Cover', href)
         oeb.metadata.add('cover', id_)
+
+        sections = data
+        toc_thumbnails = {}
+
+        insertHtmlToc = toc_desc_generate
+        insertThumbnail = toc_thumbnail_generate
+
+        self.insert_toc(
+            oeb, sections, toc_thumbnails, insertHtmlToc, insertThumbnail)
