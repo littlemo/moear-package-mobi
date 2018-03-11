@@ -46,4 +46,8 @@ p {
   margin-top: 10px;
   page-break-after: always;
 }
+p.pre {
+  font-family: monospace;
+  white-space: pre;
+}
 {{ extra_css }}
