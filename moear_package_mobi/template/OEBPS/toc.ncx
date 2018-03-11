@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="zh-CN">
+  <head>
+    <meta name="cover" content="cover"/>
+    <meta name="dtb:uid" content="isbn:{{ spider.name }}"/>
+    <meta name="dtb:depth" content="4"/>
+    <meta name="dtb:totalPageCount" content="0"/>
+    <meta name="dtb:maxPageNumber" content="0"/>
+  </head>
+  <docTitle><text>{{ spider.display_name }}</text></docTitle>
+  <docAuthor><text>{{ spider.author }}</text></docAuthor>
+  <navMap>
+
+  {% if spider.meta.book_mode == 'periodical' %}
+
+    <navPoint class="periodical">
+      <navLabel><text>MoEar</text></navLabel>
+      {% for i, item in enumerate(data.items()) %}
+      <navPoint class="section" id="section_{{ i }}">
+        <navLabel><text>{{ item[0] }}</text></navLabel>
+        {% for j, p in enumerate(item[1]) %}
+          <navPoint class="article" id="article_{{ i + 1 }}_{{ p.id }}" playOrder="{{ p.id }}">
+            <navLabel><text>{{ p.title|escape }}</text></navLabel>
+            <content src="{{ p.id }}.html" />
+            <mbp:meta name="description">{{ p.excerpt|escape }}</mbp:meta>
+            <mbp:meta name="author">{{ p.author }}</mbp:meta>
+          </navPoint>
+        {% endfor %}
+      </navPoint>
+      {% endfor %}
+    </navPoint>
+
+  {% else %}
+
+    <navPoint class="book">
+      <navLabel><text>MoEar</text></navLabel>
+      {% for i, item in enumerate(data.items()) %}
+        {% for j, p in enumerate(item[1]) %}
+        <navPoint class="chapter" id="{{ i + 1 }}_{{ p.id }}" playOrder="{{ p.id }}">
+          <navLabel><text>{{ p.title|escape }}</text></navLabel>
+          <content src="{{ p.id }}.html" />
+        </navPoint>
+        {% endfor %}
+      {% endfor %}
+    </navPoint>
+
+  {% endif %}
+
+  </navMap>
+</ncx>
