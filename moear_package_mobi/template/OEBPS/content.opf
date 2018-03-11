@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="bookid">
+  <metadata>
+    <dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+      <dc:identifier id="bookid">urn:isbn:{{ spider.name }}_{{ datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ") }}</dc:identifier>
+      {% if spider.meta.book_mode == 'periodical' %}
+      <dc:title>{{ spider.display_name|escape }} - {{ pkgmeta.timestamp }}</dc:title>
+      {% else %}
+      <dc:title>{{ spider.display_name|escape }}</dc:title>
+      {% endif %}
+      <!-- <dc:subject></dc:subject> -->
+      <dc:description>{{ spider.description }}</dc:description>
+      <dc:publisher>{{ spider.display_name|escape }}</dc:publisher>
+      <dc:creator>{{ spider.author }}</dc:creator>
+      <dc:language>{{ spider.meta.language }}</dc:language>
+      <dc:date>{{ pkgmeta.timestamp }}</dc:date>
+      <!-- <dc:rights></dc:rights> -->
+    </dc-metadata>
+    {% if spider.meta.book_mode == 'periodical' %}
+    <x-metadata>
+      <output encoding="utf-8" content-type="application/x-mobipocket-subscription-magazine"></output>
+    </x-metadata>
+    {% endif %}
+    <meta name="cover" content="cimage"/>
+  </metadata>
+
+  <manifest>
+    <item id="ncxtoc" media-type="application/x-dtbncx+xml" href="toc.ncx"/>
+    <item id="cimage" media-type="image/jpeg" href="cover-image.jpg" properties="cover-image"/>
+    {% for item in data.items() %}
+    {% for p in item[1] %}
+    <item id="{{ p.id }}" href="{{ p.id }}.html" media-type="application/xhtml+xml"/>
+    {% endfor %}
+    {% endfor %}
+  </manifest>
+
+  <spine toc="ncxtoc">
+    <itemref idref="cimage" linear="no"/>
+    {% for item in data.items() %}
+    {% for p in item[1] %}
+    <itemref idref="{{ p.id }}"/>
+    {% endfor %}
+    {% endfor %}
+  </spine>
+
+  <guide>
+    <reference type="start" title="start" href="toc.ncx"></reference>
+    <reference type="toc" title="toc" href="toc.ncx"></reference>
+    <reference type="text" title="cover" href="cover-image.jpg"></reference>
+  </guide>
+</package>
