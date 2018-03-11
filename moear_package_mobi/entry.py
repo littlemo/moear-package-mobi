@@ -24,7 +24,7 @@ class Mobi(base.PackageBase):
         # 注意此处应配置打包类相关的定制配置，具体爬虫相关的配置应设置在相应爬虫的元数据中
         self.configure({})
 
-    def generate(self, data, spider, usermeta, *args, **kwargs):
+    def generate(self, data, spider, pkgmeta, usermeta, *args, **kwargs):
         """
         生成
         ----
@@ -37,8 +37,8 @@ class Mobi(base.PackageBase):
         book_title: str, 书籍名称
 
         :params data dict: 待打包的数据结构
-        :params spider dict: 指定爬虫的信息数据(包括 'meta' 字段的元数据字典，
-            其中需包含书籍名称用的时间戳)
+        :params spider dict: 指定爬虫的信息数据(包括 'meta' 字段的元数据字典)
+        :params pkgmeta dict: 指定当前package相关的动态配置元数据，如：定制书籍名、作者、时间戳等
         :params usermeta dict: 指定用户的package相关配置元数据
         :returns: str, 返回生成的书籍打包输出字符串
         """
