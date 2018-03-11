@@ -2,9 +2,6 @@ import logging
 import datetime
 
 from moear_api_common import base
-from moear_api_common.utils import makeoeb
-from calibre.ebooks.conversion.mobioutput import MOBIOutput
-from calibre.utils.bytestringio import byteStringIO
 
 
 log = logging.getLogger(__name__)
@@ -15,7 +12,7 @@ class Mobi(base.PackageBase):
     Mobi打包
     ========
 
-    用以实现mobi打包工具
+    用以实现基于kindlegen的mobi打包工具
     """
     def __init__(self, *args, **kwargs):
         super(Mobi, self).__init__(*args, **kwargs)
