@@ -23,6 +23,7 @@ setup(
     ],
     install_requires=[
         'moear-api-common~=1.0.0',
+        'Jinja2~=2.10',
     ],
     entry_points={
         'moear.package': [

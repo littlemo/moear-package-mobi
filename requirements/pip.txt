@@ -1,1 +1,2 @@
+Jinja2==2.10
 moear-api-common==1.0.0
