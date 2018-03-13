@@ -22,8 +22,12 @@ setup(
         'moear.api',
     ],
     install_requires=[
-        'moear-api-common~=1.0.0',
+        'beautifulsoup4~=4.6.0',
+        'billiard~=3.5.0.3',
         'Jinja2~=2.10',
+        'moear-api-common~=1.0.0',
+        'Pillow~=5.0.0',
+        'Scrapy~=1.5.0',
     ],
     entry_points={
         'moear.package': [
