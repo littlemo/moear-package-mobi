@@ -3,6 +3,8 @@ import os
 import shutil
 
 import scrapy
+from scrapy.selector import Selector
+from spider.items import MoearPackageMobiItem
 
 from moear_api_common import utils
 
@@ -44,4 +46,24 @@ class MobiSpider(scrapy.Spider):
         shutil.copytree(template_dir, self.tmpdir)
 
     def parse(self, response):
-        pass
+        """
+        从self.data中将文章信息格式化为item
+        """
+        for sections in self.data.values():
+            for p in sections:
+                item = MoearPackageMobiItem()
+                pmeta = p.get('meta', {})
+                item['cover_image'] = pmeta.get('moear.cover_image_slug')
+                item['content'] = p.get('content', '')
+
+                # 为图片持久化pipeline执行做数据准备
+                item['image_urls'] = [item['cover_image']] \
+                    if item['cover_image'] is not None else []
+                item['image_urls'] += \
+                    self._populated_image_urls_with_content(item['content'])
+                self.logger.debug(
+                    '待处理的图片url(过滤前): {}'.format(item['image_urls']))
+
+    def _populated_image_urls_with_content(self, content):
+        return Selector(
+            text=content).css('img::attr(src)').extract()
