@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
+import re
+import json
 import shutil
+from collections import Iterable
 
 import scrapy
 from scrapy.selector import Selector
@@ -53,6 +56,9 @@ class MobiSpider(scrapy.Spider):
             for p in sections:
                 item = MoearPackageMobiItem()
                 pmeta = p.get('meta', {})
+                image_filter = json.loads(
+                    pmeta.get('moear.image_filter', ''),
+                    encoding='UTF-8')
                 item['cover_image'] = pmeta.get('moear.cover_image_slug')
                 item['content'] = p.get('content', '')
 
@@ -63,7 +69,20 @@ class MobiSpider(scrapy.Spider):
                     self._populated_image_urls_with_content(item['content'])
                 self.logger.debug(
                     '待处理的图片url(过滤前): {}'.format(item['image_urls']))
+                item['image_urls'] = self._filter_images_urls(
+                    item['image_urls'], image_filter)
+                self._log.debug('待处理的图片url: {}'.format(item['image_urls']))
 
     def _populated_image_urls_with_content(self, content):
         return Selector(
             text=content).css('img::attr(src)').extract()
+
+    @staticmethod
+    def filter_images_urls(image_urls, image_filter):
+        assert isinstance(image_filter, Iterable)
+        rc = []
+        for i in image_urls:
+            for f in image_filter:
+                if not re.search(f, i):
+                    rc.append(i)
+        return rc
