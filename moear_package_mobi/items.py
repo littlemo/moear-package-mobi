@@ -9,6 +9,12 @@ import scrapy
 
 
 class MoearPackageMobiItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    cover_image = scrapy.Field()  # 文章封面图片
+    content = scrapy.Field()  # 文章正文
+
+    # 以下参数为pipelines处理时使用
+    url_local = scrapy.Field()  # 文章持久化后的本地路径
+    cover_image_local = scrapy.Field()  # 文章封面图片持久化后的本地路径
+
+    image_urls = scrapy.Field()  # 图片链接
+    images = scrapy.Field()  # 图片存储返回
