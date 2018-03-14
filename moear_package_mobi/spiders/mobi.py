@@ -79,10 +79,15 @@ class MobiSpider(scrapy.Spider):
 
     @staticmethod
     def filter_images_urls(image_urls, image_filter):
-        assert isinstance(image_filter, Iterable)
         rc = []
         for i in image_urls:
-            for f in image_filter:
-                if not re.search(f, i):
+            if isinstance(image_filter, str):
+                if not re.search(image_filter, i):
                     rc.append(i)
+            elif isinstance(image_filter, list):
+                for f in image_filter:
+                    if not re.search(f, i):
+                        rc.append(i)
+            else:
+                raise TypeError('image_filter not str or list')
         return rc
