@@ -32,5 +32,16 @@ class MobiSpider(scrapy.Spider):
             self.tmpdir = utils.mkdirp(os.path.join(
                 base_dir, 'build', 'temp'))
 
+        self._initialize_tempdir()
+
+    def _initialize_tempdir(self):
+        self._log.info('临时路径 => {0}'.format(self.tmpdir))
+        self._log.info('输出路径 => {0}'.format(self.output_directory))
+
+        # 清除目标路径（主要用于处理调试时的指定路径）
+        os.rmdir(self.tmpdir)
+
+        shutil.copytree(template_dir, self.tmpdir)
+
     def parse(self, response):
         pass
