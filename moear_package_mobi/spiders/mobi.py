@@ -67,7 +67,7 @@ class MobiSpider(scrapy.Spider):
                     if item['cover_image'] is not None else []
                 item['image_urls'] += \
                     self._populated_image_urls_with_content(item['content'])
-                self.logger.debug(
+                self._log.debug(
                     '待处理的图片url(过滤前): {}'.format(item['image_urls']))
                 item['image_urls'] = self._filter_images_urls(
                     item['image_urls'], image_filter)
