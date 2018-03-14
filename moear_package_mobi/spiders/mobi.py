@@ -2,6 +2,7 @@
 import os
 import re
 import json
+import copy
 import shutil
 from collections import Iterable
 
@@ -79,15 +80,15 @@ class MobiSpider(scrapy.Spider):
 
     @staticmethod
     def filter_images_urls(image_urls, image_filter):
-        rc = []
+        rc = copy.deepcopy(image_urls)
         for i in image_urls:
             if isinstance(image_filter, str):
-                if not re.search(image_filter, i):
-                    rc.append(i)
+                if re.search(image_filter, i):
+                    rc.remove(i)
             elif isinstance(image_filter, list):
                 for f in image_filter:
-                    if not re.search(f, i):
-                        rc.append(i)
+                    if re.search(f, i):
+                        rc.remove(i)
             else:
                 raise TypeError('image_filter not str or list')
         return rc
