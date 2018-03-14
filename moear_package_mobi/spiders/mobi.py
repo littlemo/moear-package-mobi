@@ -7,7 +7,7 @@ from collections import Iterable
 
 import scrapy
 from scrapy.selector import Selector
-from spider.items import MoearPackageMobiItem
+from ..items import MoearPackageMobiItem
 
 from moear_api_common import utils
 
