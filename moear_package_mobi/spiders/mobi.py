@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-import json
 import copy
 import shutil
-from collections import Iterable
+import tempfile
 
 import scrapy
 from scrapy.selector import Selector
@@ -53,13 +52,12 @@ class MobiSpider(scrapy.Spider):
         """
         从self.data中将文章信息格式化为item
         """
+        smeta = self.spider.get('meta', {})
+        image_filter = smeta.get('image_filter', '')
         for sections in self.data.values():
             for p in sections:
                 item = MoearPackageMobiItem()
                 pmeta = p.get('meta', {})
-                image_filter = json.loads(
-                    pmeta.get('moear.image_filter', ''),
-                    encoding='UTF-8')
                 item['cover_image'] = pmeta.get('moear.cover_image_slug')
                 item['content'] = p.get('content', '')
 
