@@ -74,6 +74,8 @@ class MobiSpider(scrapy.Spider):
                     item['image_urls'], image_filter)
                 self._log.debug('待处理的图片url: {}'.format(item['image_urls']))
 
+                yield item
+
     def _populated_image_urls_with_content(self, content):
         return Selector(
             text=content).css('img::attr(src)').extract()
