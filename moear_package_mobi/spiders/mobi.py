@@ -6,6 +6,7 @@ import shutil
 import tempfile
 
 import scrapy
+from jinja2 import Template
 from scrapy.selector import Selector
 from ..items import MoearPackageMobiItem
 
@@ -39,6 +40,11 @@ class MobiSpider(scrapy.Spider):
         self.update_settings({
             'IMAGES_STORE': self.tmpdir,
         })
+
+        # 获取Post模板对象
+        post_template_path = os.path.join(self.tmpdir, 'post.html')
+        with open(post_template_path, 'r') as f:
+            self.post_template = Template(f.read())
 
         self._initialize_debug_dir()
 
