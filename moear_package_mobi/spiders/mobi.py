@@ -25,7 +25,7 @@ class MobiSpider(scrapy.Spider):
         self.usermeta = usermeta
 
         # 关键字参数
-        self._log = kwargs.get('log', self.logger)
+        self.logger = kwargs.get('log', self.logger)
         self.debug = kwargs.get('debug', False)
 
         # 工作&输出路径
@@ -40,8 +40,8 @@ class MobiSpider(scrapy.Spider):
         self._initialize_tempdir()
 
     def _initialize_tempdir(self):
-        self._log.info('临时路径 => {0}'.format(self.tmpdir))
-        self._log.info('输出路径 => {0}'.format(self.output_directory))
+        self.logger.info('临时路径 => {0}'.format(self.tmpdir))
+        self.logger.info('输出路径 => {0}'.format(self.output_directory))
 
         # 清除目标路径（主要用于处理调试时的指定路径）
         os.rmdir(self.tmpdir)
@@ -66,11 +66,11 @@ class MobiSpider(scrapy.Spider):
                     if item['cover_image'] is not None else []
                 item['image_urls'] += \
                     self._populated_image_urls_with_content(item['content'])
-                self._log.debug(
+                self.logger.debug(
                     '待处理的图片url(过滤前): {}'.format(item['image_urls']))
                 item['image_urls'] = self._filter_images_urls(
                     item['image_urls'], image_filter)
-                self._log.debug('待处理的图片url: {}'.format(item['image_urls']))
+                self.logger.debug('待处理的图片url: {}'.format(item['image_urls']))
 
                 yield item
 
