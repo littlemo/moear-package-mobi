@@ -95,9 +95,13 @@ class MobiSpider(scrapy.Spider):
         rc = copy.deepcopy(image_urls)
         for i in image_urls:
             if isinstance(image_filter, str):
+                if not image_filter:
+                    break
                 if re.search(image_filter, i):
                     rc.remove(i)
             elif isinstance(image_filter, list):
+                if not all(image_filter):
+                    break
                 for f in image_filter:
                     if re.search(f, i):
                         rc.remove(i)
