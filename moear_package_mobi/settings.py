@@ -14,6 +14,8 @@ BOT_NAME = 'moear_package_mobi'
 SPIDER_MODULES = ['moear_package_mobi.spiders']
 NEWSPIDER_MODULE = 'moear_package_mobi.spiders'
 
+# 日志打印级别
+LOG_LEVEL = 'INFO'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'moear_package_mobi (+http://www.yourdomain.com)'
