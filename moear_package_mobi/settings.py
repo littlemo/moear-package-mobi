@@ -69,6 +69,7 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'moear_package_mobi.pipelines.MoEarImagesPipeline': 109,
+    'moear_package_mobi.pipelines.PagePersistentPipeline': 110,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
