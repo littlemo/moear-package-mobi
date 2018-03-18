@@ -56,3 +56,17 @@ class TestSpiderMobiMethods(unittest.TestCase):
                 self.image_urls, ('equation\?tex='))
         except Exception as e:
             self.assertTrue(isinstance(e, TypeError))
+
+    def test_003_filter_images_urls_with_null_str_filter(self):
+        """测试传入空字符串类型的过滤器参数到图片列表过滤器中"""
+        rc = mobi.MobiSpider.filter_images_urls(
+            self.image_urls, '')
+        log.debug(rc)
+        self.assertEqual(rc, self.image_urls)
+
+    def test_004_filter_images_urls_with_null_list_filter(self):
+        """测试传入空字符串类型的过滤器参数到图片列表过滤器中"""
+        rc = mobi.MobiSpider.filter_images_urls(
+            self.image_urls, [])
+        log.debug(rc)
+        self.assertEqual(rc, self.image_urls)
