@@ -37,6 +37,11 @@ class MobiSpider(scrapy.Spider):
             self.tmpdir = utils.mkdirp(os.path.join(
                 base_dir, 'build', 'temp'))
 
+        # 更新 custom_settings 中的图片输出路径
+        self.update_settings({
+            'IMAGES_STORE': self.tmpdir,
+        })
+
         self._initialize_tempdir()
 
     def _initialize_tempdir(self):
