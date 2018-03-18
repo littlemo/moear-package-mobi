@@ -11,9 +11,6 @@ from ..items import MoearPackageMobiItem
 
 from moear_api_common import utils
 
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-template_dir = os.path.join(base_dir, 'template')
-
 
 class MobiSpider(scrapy.Spider):
     name = 'mobi'
@@ -29,29 +26,32 @@ class MobiSpider(scrapy.Spider):
         self.debug = kwargs.get('debug', False)
 
         # 工作&输出路径
+        self.base_dir = self.settings.get(
+            'BASE_DIR',
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.template_dir = self.settings.get(
+            'TEMPLATE_DIR',
+            os.path.join(self.base_dir, 'template'))
         self.output_directory = tempfile.mkdtemp()
         self.tmpdir = tempfile.mkdtemp()
-        if self.debug:
-            self.output_directory = utils.mkdirp(os.path.join(
-                base_dir, 'build', 'output'))
-            self.tmpdir = utils.mkdirp(os.path.join(
-                base_dir, 'build', 'temp'))
 
         # 更新 custom_settings 中的图片输出路径
         self.update_settings({
             'IMAGES_STORE': self.tmpdir,
         })
 
-        self._initialize_tempdir()
+        self._initialize_debug_dir()
 
-    def _initialize_tempdir(self):
         self.logger.info('临时路径 => {0}'.format(self.tmpdir))
         self.logger.info('输出路径 => {0}'.format(self.output_directory))
 
-        # 清除目标路径（主要用于处理调试时的指定路径）
-        os.rmdir(self.tmpdir)
-
-        shutil.copytree(template_dir, self.tmpdir)
+    def _initialize_debug_dir(self):
+        if self.debug:
+            self.output_directory = utils.mkdirp(os.path.join(
+                self.base_dir, 'build', 'output'))
+            temp = os.path.join(self.base_dir, 'build', 'temp')
+            os.rmdir(temp)
+            self.tmpdir = utils.mkdirp(temp)
 
     def parse(self, response):
         """
