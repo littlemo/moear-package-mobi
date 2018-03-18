@@ -42,7 +42,7 @@ class MobiSpider(scrapy.Spider):
         })
 
         # 获取Post模板对象
-        post_template_path = os.path.join(self.tmpdir, 'post.html')
+        post_template_path = os.path.join(self.template_dir, 'post.html')
         with open(post_template_path, 'r') as f:
             self.post_template = Template(f.read())
 
