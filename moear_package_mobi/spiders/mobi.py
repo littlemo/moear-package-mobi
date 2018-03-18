@@ -69,6 +69,7 @@ class MobiSpider(scrapy.Spider):
             for p in sections:
                 item = MoearPackageMobiItem()
                 pmeta = p.get('meta', {})
+                item['url'] = p.get('origin_url', '')
                 item['title'] = p.get('title', '')
                 item['cover_image'] = pmeta.get('moear.cover_image_slug')
                 item['content'] = p.get('content', '')
