@@ -9,6 +9,7 @@ import scrapy
 
 
 class MoearPackageMobiItem(scrapy.Item):
+    title = scrapy.Field()  # 文章标题
     cover_image = scrapy.Field()  # 文章封面图片
     content = scrapy.Field()  # 文章正文
 
