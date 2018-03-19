@@ -11,40 +11,52 @@
   <docAuthor><text>{{ pkgmeta.get('book_author', spider.author) }}</text></docAuthor>
   <navMap>
 
-  {% if spider.meta.book_mode == 'periodical' %}
+  {%- if spider.meta.book_mode == 'periodical' %}
 
     <navPoint class="periodical">
       <navLabel><text>MoEar</text></navLabel>
-      {% for i, item in enumerate(data.items()) %}
-      <navPoint class="section" id="section_{{ i }}">
+      {% for item in data.items() %}
+      {% set section_loop = loop -%}
+      <navPoint class="section" id="section_{{ section_loop.index }}">
         <navLabel><text>{{ item[0] }}</text></navLabel>
-        {% for j, p in enumerate(item[1]) %}
-          <navPoint class="article" id="article_{{ i + 1 }}_{{ p.id }}" playOrder="{{ p.id }}">
-            <navLabel><text>{{ p.title|escape }}</text></navLabel>
-            <content src="{{ p.id }}.html" />
-            <mbp:meta name="description">{{ p.excerpt|escape }}</mbp:meta>
-            <mbp:meta name="author">{{ p.author }}</mbp:meta>
-          </navPoint>
+        {% for p in item[1] %}
+        {%- set post_loop = loop %}
+        {% for item_local in item_list %}
+        {%- if item_local.url != p.origin_url %}{% continue %}{% endif -%}
+        <navPoint class="article" id="article_{{ section_loop.index }}_{{ post_loop.index }}" playOrder="{{ post_loop.index }}">
+          <navLabel><text>{{ item_local.title|escape }}</text></navLabel>
+          <content src="{{ item_local.url_local }}" />
+          <mbp:meta name="description">{{ p.excerpt|escape }}</mbp:meta>
+          <mbp:meta name="author">{{ p.author }}</mbp:meta>
+        </navPoint>
+        {%- break %}
         {% endfor %}
+        {% endfor -%}
       </navPoint>
       {% endfor %}
     </navPoint>
 
-  {% else %}
+  {%- else -%}
 
     <navPoint class="book">
       <navLabel><text>MoEar</text></navLabel>
-      {% for i, item in enumerate(data.items()) %}
-        {% for j, p in enumerate(item[1]) %}
-        <navPoint class="chapter" id="{{ i + 1 }}_{{ p.id }}" playOrder="{{ p.id }}">
-          <navLabel><text>{{ p.title|escape }}</text></navLabel>
-          <content src="{{ p.id }}.html" />
-        </navPoint>
-        {% endfor %}
+      {% for item in data.items() %}
+      {%- set section_loop = loop %}
+      {% for p in item[1] %}
+      {%- set post_loop = loop -%}
+      {% for item_local in item_list %}
+      {%- if item_local.url != p.origin_url %}{% continue %}{% endif -%}
+      <navPoint class="chapter" id="chapter_{{ section_loop.index }}_{{ post_loop.index }}" playOrder="{{ loop.index }}">
+        <navLabel><text>{{ p.title|escape }}</text></navLabel>
+        <content src="{{ item_local.url_local }}" />
+      </navPoint>
+      {%- break %}
       {% endfor %}
+      {% endfor %}
+      {% endfor -%}
     </navPoint>
 
-  {% endif %}
+  {%- endif %}
 
   </navMap>
 </ncx>

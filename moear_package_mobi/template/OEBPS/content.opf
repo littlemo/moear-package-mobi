@@ -2,7 +2,7 @@
 <package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="bookid">
   <metadata>
     <dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-      <dc:identifier id="bookid">urn:isbn:{{ spider.name }}_{{ datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ") }}</dc:identifier>
+      <dc:identifier id="bookid">urn:isbn:{{ spider.name }}</dc:identifier>
       {% if spider.meta.book_mode == 'periodical' %}
       <dc:title>{{ spider.display_name|escape }} - {{ pkgmeta.timestamp }}</dc:title>
       {% else %}
@@ -27,20 +27,16 @@
   <manifest>
     <item id="ncxtoc" media-type="application/x-dtbncx+xml" href="toc.ncx"/>
     <item id="cimage" media-type="image/jpeg" href="cover-image.jpg" properties="cover-image"/>
-    {% for item in data.items() %}
-    {% for p in item[1] %}
-    <item id="{{ p.id }}" href="{{ p.id }}.html" media-type="application/xhtml+xml"/>
-    {% endfor %}
-    {% endfor %}
+    {% for item in item_list -%}
+    <item id="{{ loop.index }}" href="{{ item.url_local }}" media-type="application/xhtml+xml"/>
+    {% endfor -%}
   </manifest>
 
   <spine toc="ncxtoc">
     <itemref idref="cimage" linear="no"/>
-    {% for item in data.items() %}
-    {% for p in item[1] %}
-    <itemref idref="{{ p.id }}"/>
-    {% endfor %}
-    {% endfor %}
+    {% for item in item_list -%}
+    <itemref idref="{{ loop.index }}"/>
+    {% endfor -%}
   </spine>
 
   <guide>
