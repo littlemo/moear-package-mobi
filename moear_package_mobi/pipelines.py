@@ -9,7 +9,6 @@ import codecs
 import hashlib
 
 from bs4 import BeautifulSoup
-from jinja2 import Template
 
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.utils.python import to_bytes
