@@ -36,11 +36,6 @@ class MobiSpider(scrapy.Spider):
         self.output_directory = tempfile.mkdtemp()
         self.tmpdir = tempfile.mkdtemp()
 
-        # 更新 custom_settings 中的图片输出路径
-        self.update_settings({
-            'IMAGES_STORE': self.tmpdir,
-        })
-
         # 获取Post模板对象
         post_template_path = os.path.join(self.template_dir, 'post.html')
         with open(post_template_path, 'r') as f:
