@@ -50,13 +50,18 @@ class TestSpiderEntryMethods(unittest.TestCase):
             'email': 'xxx@xxx.com',
             'description': '何时找到女盆友',
             'meta': {
-                'language': 'zh-cn',
-                'book_mode': 'periodical',
+                'package_module': 'mobi',
+                'language': 'zh-CN',
+                'book_mode': 'periodical',  # 'periodical' | 'book'
+                'image_filter': ['equation\?tex='],
             }
         }
-        usermeta = {
-            'moear.package.device': 'kindle'
+        pkgmeta = {
         }
-        rc = entry.Mobi().generate(data, spider, usermeta)
+        usermeta = {
+        }
+        rc = entry.Mobi().generate(
+            data, spider, pkgmeta, usermeta,
+            debug=True)
         log.info(rc)
         self.assertIsInstance(rc, str)
