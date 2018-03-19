@@ -74,3 +74,19 @@ class PagePersistentPipeline(object):
         del item['images']
 
         return item
+
+
+class ItemCollectPipeline(object):
+    """
+    将item对象收集到爬虫实例中
+    """
+
+    def process_item(self, item, spider):
+        # 删除对于收集无意义的信息
+        del item['url']
+        del item['cover_image']
+
+        # 收集处理过后的item对象
+        spider.item_list.append(item)
+        spider.logger.debug('保存item到spider: \n%s' % item)
+        return item

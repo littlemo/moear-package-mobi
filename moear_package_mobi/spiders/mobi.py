@@ -29,6 +29,9 @@ class MobiSpider(scrapy.Spider):
         # 为了触发parse方法，就暂时辛苦下网络测试专用站啦（大雾~~
         self.start_urls = ['https://www.baidu.com']
 
+        # 用于存储所有item的实例属性
+        self.item_list = []
+
     def _initialize_debug_dir(self):
         if self.debug:
             self.output_directory = utils.mkdirp(os.path.join(
