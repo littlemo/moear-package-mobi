@@ -31,27 +31,28 @@ class PagePersistentPipeline(object):
     将爬取到的文章内容持久化到指定路径
     """
     def process_item(self, item, spider):
-        # 将item['content']中的全部img替换为本地化后的url，此处需使用BS库
         soup = BeautifulSoup(item.get('content', ''), "lxml")
-        img_list = soup.find_all('img')
-        for i in img_list:
-            img_src = i.get('src')
-            for result in item.get('images', []):
-                if img_src == result['url']:
-                    raw_path_list = result['path'].split('/')
-                    i['src'] = os.path.join(
-                        raw_path_list[-2], raw_path_list[-1])
-                    spider._logger.debug(
-                        '文章({})的正文img保存成功: {}'.format(
-                            item['title'], img_src))
+        if item.get('images'):
+            # 将content中的全部img替换为本地化后的url
+            img_list = soup.find_all('img')
+            for i in img_list:
+                img_src = i.get('src')
+                for result in item.get('images', []):
+                    if img_src == result['url']:
+                        raw_path_list = result['path'].split('/')
+                        i['src'] = os.path.join(
+                            raw_path_list[-2], raw_path_list[-1])
+                        spider._logger.debug(
+                            '文章({})的正文img保存成功: {}'.format(
+                                item['title'], img_src))
+                        break
+
+            # 填充cover_image_local路径值
+            for result in item['images']:
+                if item['cover_image'] == result['url']:
+                    item['cover_image_local'] = result['path']
                     break
         item['content'] = str(soup.div)
-
-        # 填充cover_image_local路径值
-        for result in item['images']:
-            if item['cover_image'] == result['url']:
-                item['cover_image_local'] = result['path']
-                break
 
         # 将item['content']保存到本地
         article_html_name = hashlib.sha1(to_bytes(item['url'])).hexdigest()
