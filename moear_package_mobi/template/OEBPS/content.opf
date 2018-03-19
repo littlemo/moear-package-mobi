@@ -4,7 +4,7 @@
     <dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
       <dc:identifier id="bookid">urn:isbn:{{ spider.name }}</dc:identifier>
       {% if spider.meta.book_mode == 'periodical' %}
-      <dc:title>{{ spider.display_name|escape }} - {{ pkgmeta.timestamp }}</dc:title>
+      <dc:title>{{ spider.display_name|escape }} {{ pkgmeta.timestamp }}</dc:title>
       {% else %}
       <dc:title>{{ spider.display_name|escape }}</dc:title>
       {% endif %}
