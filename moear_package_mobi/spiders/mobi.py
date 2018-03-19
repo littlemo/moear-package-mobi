@@ -55,9 +55,9 @@ class MobiSpider(scrapy.Spider):
         self.tmpdir = tempfile.mkdtemp()
 
         # 获取Post模板对象
-        post_template_path = os.path.join(self.template_dir, 'post.html')
-        with open(post_template_path, 'r') as f:
-            self.post_template = Template(f.read())
+        template_post_path = os.path.join(self.template_dir, 'post.html')
+        with open(template_post_path, 'r') as f:
+            self.template_post = Template(f.read())
 
         self._initialize_debug_dir()
 

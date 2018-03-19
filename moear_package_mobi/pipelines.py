@@ -66,7 +66,7 @@ class PagePersistentPipeline(object):
 
         # 基于预设模板，将文章正文本地化
         with codecs.open(page_store, 'wb', 'utf-8') as fh:
-            fh.write(spider.post_template.render(item=item))
+            fh.write(spider.template_post.render(item=item))
 
         # 为优化log打印信息，清空已处理过的字段
         del item['content']
