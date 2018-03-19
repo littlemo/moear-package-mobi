@@ -26,6 +26,9 @@ class MobiSpider(scrapy.Spider):
         self._logger = kwargs.get('log', self.logger)
         self.debug = kwargs.get('debug', False)
 
+        # 为了触发parse方法，就暂时辛苦下网络测试专用站啦（大雾~~
+        self.start_urls = ['https://www.baidu.com']
+
     def _initialize_debug_dir(self):
         if self.debug:
             self.output_directory = utils.mkdirp(os.path.join(
