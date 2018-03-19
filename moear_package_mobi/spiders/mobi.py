@@ -2,6 +2,7 @@
 import os
 import re
 import copy
+import codecs
 import shutil
 import tempfile
 
@@ -111,3 +112,19 @@ class MobiSpider(scrapy.Spider):
             else:
                 raise TypeError('image_filter not str or list')
         return rc
+
+    def closed(self, reason):
+        self._logger.info('输出item列表：{}'.format(self.item_list))
+
+        # 获取css模板对象
+        template_css_path = os.path.join(
+            self.template_dir, 'post.css')
+        with open(template_css_path, 'r') as fh:
+            template_css = Template(fh.read())
+
+        # 渲染css目标文件
+        extra_css = self.spider.get('meta', {}).get('extra_css', '')
+        css_path = os.path.join(self.tmpdir, 'post.css')
+        with codecs.open(css_path, 'wb', 'utf-8') as fh:
+            fh.write(template_css.render(
+                extra_css=extra_css))
