@@ -128,3 +128,17 @@ class MobiSpider(scrapy.Spider):
         with codecs.open(css_path, 'wb', 'utf-8') as fh:
             fh.write(template_css.render(
                 extra_css=extra_css))
+
+        # 获取content模板对象
+        template_content_path = os.path.join(
+            self.template_dir, 'OEBPS', 'content.opf')
+        with open(template_content_path, 'r') as fh:
+            template_content = Template(fh.read())
+
+        # 渲染content目标文件
+        content_path = os.path.join(self.tmpdir, 'content.opf')
+        with codecs.open(content_path, 'wb', 'utf-8') as fh:
+            fh.write(template_content.render(
+                spider=self.spider,
+                pkgmeta=self.pkgmeta,
+                item_list=self.item_list))
