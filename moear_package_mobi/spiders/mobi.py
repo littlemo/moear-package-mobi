@@ -7,6 +7,7 @@ import shutil
 import tempfile
 
 import scrapy
+from jinja2 import Environment
 from jinja2 import Template
 from scrapy.selector import Selector
 from ..items import MoearPackageMobiItem
@@ -32,6 +33,8 @@ class MobiSpider(scrapy.Spider):
 
         # 用于存储所有item的实例属性
         self.item_list = []
+
+        self.jinja_env = Environment(extensions=['jinja2.ext.loopcontrols'])
 
     def _initialize_debug_dir(self):
         if self.debug:
@@ -142,3 +145,19 @@ class MobiSpider(scrapy.Spider):
                 spider=self.spider,
                 pkgmeta=self.pkgmeta,
                 item_list=self.item_list))
+
+        # 获取toc模板对象
+        template_toc_path = os.path.join(
+            self.template_dir, 'OEBPS', 'toc.ncx')
+        with open(template_toc_path, 'r') as fh:
+            template_toc = self.jinja_env.from_string(fh.read())
+
+        # 渲染toc目标文件
+        toc_path = os.path.join(self.tmpdir, 'toc.ncx')
+        with codecs.open(toc_path, 'wb', 'utf-8') as fh:
+            fh.write(template_toc.render(
+                data=self.data,
+                spider=self.spider,
+                pkgmeta=self.pkgmeta,
+                item_list=self.item_list))
+
