@@ -83,7 +83,6 @@ class ItemCollectPipeline(object):
 
     def process_item(self, item, spider):
         # 删除对于收集无意义的信息
-        del item['url']
         del item['cover_image']
 
         # 收集处理过后的item对象
