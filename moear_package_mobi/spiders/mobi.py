@@ -34,7 +34,7 @@ class MobiSpider(scrapy.Spider):
             self.output_directory = utils.mkdirp(os.path.join(
                 self.base_dir, 'build', 'output'))
             temp = os.path.join(self.base_dir, 'build', 'temp')
-            shutil.rmtree(temp)
+            shutil.rmtree(temp, ignore_errors=True)
             self.tmpdir = utils.mkdirp(temp)
 
     def parse(self, response):
