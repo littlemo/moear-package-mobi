@@ -69,9 +69,9 @@ class PagePersistentPipeline(object):
             fh.write(spider.template_post.render(item=item))
 
         # 为优化log打印信息，清空已处理过的字段
-        del item['content']
-        del item['image_urls']
-        del item['images']
+        item.pop('content', '')
+        item.pop('image_urls', [])
+        item.pop('images', [])
 
         return item
 
@@ -83,7 +83,7 @@ class ItemCollectPipeline(object):
 
     def process_item(self, item, spider):
         # 删除对于收集无意义的信息
-        del item['cover_image']
+        item.pop('cover_image', '')
 
         # 收集处理过后的item对象
         spider.item_list.append(item)
