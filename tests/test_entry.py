@@ -54,9 +54,11 @@ class TestSpiderEntryMethods(unittest.TestCase):
                 'language': 'zh-CN',
                 'book_mode': 'periodical',  # 'periodical' | 'book'
                 'image_filter': ['equation\?tex='],
+                'extra_css': '',
             }
         }
         pkgmeta = {
+            'timestamp': '2018-03-17',
         }
         usermeta = {
         }
