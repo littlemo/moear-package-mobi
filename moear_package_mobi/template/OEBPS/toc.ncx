@@ -14,7 +14,7 @@
   {%- if spider.meta.book_mode == 'periodical' %}
 
     <navPoint class="periodical">
-      <navLabel><text>MoEar</text></navLabel>
+      <navLabel><text>{{ spider.display_name|escape }} {{ pkgmeta.timestamp }}</text></navLabel>
       {% for item in data.items() %}
       {% set section_loop = loop -%}
       <navPoint class="section" id="section_{{ section_loop.index }}">
