@@ -26,6 +26,18 @@ class MobiSpider(scrapy.Spider):
         self._logger = kwargs.get('log', self.logger)
         self.debug = kwargs.get('debug', False)
 
+    def _initialize_debug_dir(self):
+        if self.debug:
+            self.output_directory = utils.mkdirp(os.path.join(
+                self.base_dir, 'build', 'output'))
+            temp = os.path.join(self.base_dir, 'build', 'temp')
+            shutil.rmtree(temp)
+            self.tmpdir = utils.mkdirp(temp)
+
+    def parse(self, response):
+        """
+        从self.data中将文章信息格式化为item
+        """
         # 工作&输出路径
         self.base_dir = self.settings.get(
             'BASE_DIR',
@@ -46,18 +58,6 @@ class MobiSpider(scrapy.Spider):
         self._logger.info('临时路径 => {0}'.format(self.tmpdir))
         self._logger.info('输出路径 => {0}'.format(self.output_directory))
 
-    def _initialize_debug_dir(self):
-        if self.debug:
-            self.output_directory = utils.mkdirp(os.path.join(
-                self.base_dir, 'build', 'output'))
-            temp = os.path.join(self.base_dir, 'build', 'temp')
-            os.rmdir(temp)
-            self.tmpdir = utils.mkdirp(temp)
-
-    def parse(self, response):
-        """
-        从self.data中将文章信息格式化为item
-        """
         smeta = self.spider.get('meta', {})
         image_filter = smeta.get('image_filter', '')
         for sections in self.data.values():
