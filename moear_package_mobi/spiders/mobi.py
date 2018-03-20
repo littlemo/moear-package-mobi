@@ -119,6 +119,19 @@ class MobiSpider(scrapy.Spider):
     def closed(self, reason):
         self._logger.info('输出item列表：{}'.format(self.item_list))
 
+        # 将item_list中的目标字段填充到相应post中
+        idx = 1
+        for section in self.data.items():
+            for post in section[1]:
+                post['idx'] = idx
+                idx += 1
+                for item in self.item_list:
+                    if post.get('origin_url') == item.get('url'):
+                        post['url_local'] = item.get('url_local')
+                        post['cover_image_local'] = item.get(
+                            'cover_image_local')
+                        break
+
         # 获取css模板对象
         template_css_path = os.path.join(
             self.template_dir, 'post.css')
@@ -158,6 +171,5 @@ class MobiSpider(scrapy.Spider):
             fh.write(template_toc.render(
                 data=self.data,
                 spider=self.spider,
-                pkgmeta=self.pkgmeta,
-                item_list=self.item_list))
+                pkgmeta=self.pkgmeta))
 
