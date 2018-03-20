@@ -57,13 +57,11 @@ class TestSpiderEntryMethods(unittest.TestCase):
                 'extra_css': '',
             }
         }
-        pkgmeta = {
+        usermeta = {
             'timestamp': '2018-03-17',
         }
-        usermeta = {
-        }
-        rc = entry.Mobi().generate(
-            data, spider, pkgmeta, usermeta,
-            debug=True)
+        rc = entry.Mobi(
+            spider,
+            usermeta=usermeta).generate(data, debug=True)
         log.info(rc)
         self.assertIsInstance(rc, str)
