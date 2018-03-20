@@ -140,7 +140,8 @@ class MobiSpider(scrapy.Spider):
 
         # 渲染css目标文件
         extra_css = self.spider.get('meta', {}).get('extra_css', '')
-        css_path = os.path.join(self.tmpdir, 'post.css')
+        css_path = os.path.join(self.tmpdir, 'css', 'post.css')
+        utils.mkdirp(os.path.dirname(css_path))
         with codecs.open(css_path, 'wb', 'utf-8') as fh:
             fh.write(template_css.render(
                 extra_css=extra_css))
