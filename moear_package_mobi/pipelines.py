@@ -40,9 +40,8 @@ class PagePersistentPipeline(object):
                 img_src = i.get('src')
                 for result in item.get('images', []):
                     if img_src == result['url']:
-                        raw_path_list = result['path'].split('/')
-                        i['src'] = os.path.join(
-                            raw_path_list[-2], raw_path_list[-1])
+                        # raw_path_list = result['path'].split('/')
+                        i['src'] = os.path.join('..', result['path'])
                         spider._logger.debug(
                             '文章({})的正文img保存成功: {}'.format(
                                 item['title'], img_src))
@@ -58,7 +57,7 @@ class PagePersistentPipeline(object):
         # 将item['content']保存到本地
         article_html_name = hashlib.sha1(to_bytes(item['url'])).hexdigest()
         html_name = '{}.html'.format(article_html_name)
-        item['url_local'] = html_name
+        item['url_local'] = os.path.join('html', html_name)
         page_store = os.path.join(spider.tmpdir, item['url_local'])
 
         # 创建目标dirname
