@@ -167,7 +167,8 @@ class MobiSpider(scrapy.Spider):
             template_toc = self.jinja_env.from_string(fh.read())
 
         # 渲染toc目标文件
-        toc_path = os.path.join(self.tmpdir, 'toc.ncx')
+        toc_path = os.path.join(self.tmpdir, 'misc', 'toc.ncx')
+        utils.mkdirp(os.path.dirname(toc_path))
         with codecs.open(toc_path, 'wb', 'utf-8') as fh:
             fh.write(template_toc.render(
                 data=self.data,
