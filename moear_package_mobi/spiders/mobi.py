@@ -18,11 +18,10 @@ from moear_api_common import utils
 class MobiSpider(scrapy.Spider):
     name = 'mobi'
 
-    def __init__(self, data, spider, pkgmeta, usermeta, *args, **kwargs):
+    def __init__(self, data, spider, options, *args, **kwargs):
         self.data = data
         self.spider = spider
-        self.pkgmeta = pkgmeta
-        self.usermeta = usermeta
+        self.options = options
 
         # 关键字参数
         self._logger = kwargs.get('log', self.logger)
@@ -68,8 +67,7 @@ class MobiSpider(scrapy.Spider):
         self._logger.info('临时路径 => {0}'.format(self.tmpdir))
         self._logger.info('输出路径 => {0}'.format(self.output_directory))
 
-        smeta = self.spider.get('meta', {})
-        image_filter = smeta.get('image_filter', '')
+        image_filter = self.options.get('image_filter', '')
         for sections in self.data.values():
             for p in sections:
                 item = MoearPackageMobiItem()
@@ -139,7 +137,7 @@ class MobiSpider(scrapy.Spider):
             template_css = Template(fh.read())
 
         # 渲染css目标文件
-        extra_css = self.spider.get('meta', {}).get('extra_css', '')
+        extra_css = self.options.get('extra_css', '')
         css_path = os.path.join(self.tmpdir, 'css', 'post.css')
         utils.mkdirp(os.path.dirname(css_path))
         with codecs.open(css_path, 'wb', 'utf-8') as fh:
@@ -156,9 +154,9 @@ class MobiSpider(scrapy.Spider):
         content_path = os.path.join(self.tmpdir, 'moear.opf')
         with codecs.open(content_path, 'wb', 'utf-8') as fh:
             fh.write(template_content.render(
+                data=self.data,
                 spider=self.spider,
-                pkgmeta=self.pkgmeta,
-                item_list=self.item_list))
+                options=self.options))
 
         # 获取toc模板对象
         template_toc_path = os.path.join(
@@ -173,5 +171,5 @@ class MobiSpider(scrapy.Spider):
             fh.write(template_toc.render(
                 data=self.data,
                 spider=self.spider,
-                pkgmeta=self.pkgmeta))
+                options=self.options))
 
