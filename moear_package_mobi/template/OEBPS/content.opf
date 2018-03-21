@@ -25,11 +25,11 @@
   </metadata>
 
   <manifest>
-    <item id="ncxtoc" media-type="application/x-dtbncx+xml" href="toc.ncx"/>
-    <item id="cimage" media-type="image/jpeg" href="cover-image.jpg" properties="cover-image"/>
     {% for item in item_list -%}
     <item id="{{ loop.index }}" href="{{ item.url_local }}" media-type="application/xhtml+xml"/>
     {% endfor -%}
+    <item id="ncxtoc" media-type="application/x-dtbncx+xml" href="misc/toc.ncx"/>
+    <item id="cimage" media-type="image/jpeg" href="image/cover.jpg" properties="cover-image"/>
   </manifest>
 
   <spine toc="ncxtoc">
@@ -42,6 +42,6 @@
   <guide>
     <reference type="start" title="start" href="toc.ncx"></reference>
     <reference type="toc" title="toc" href="toc.ncx"></reference>
-    <reference type="text" title="cover" href="cover-image.jpg"></reference>
+    <reference type="text" title="cover" href="cover.jpg"></reference>
   </guide>
 </package>
