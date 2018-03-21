@@ -37,7 +37,7 @@
           <mbp:meta name="description">{{ p.excerpt }}</mbp:meta>
           {%- endif %}
           {%- if p.toc_thumbnail %}
-          <mbp:meta name="toc_thumbnail">{{ p.toc_thumbnail }}</mbp:meta>
+          <mbp:meta name="toc_thumbnail">../{{ p.toc_thumbnail }}</mbp:meta>
           {%- endif %}
           {%- if p.author %}
           <mbp:meta name="author">{{ p.author }}</mbp:meta>
