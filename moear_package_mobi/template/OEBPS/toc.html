@@ -1,0 +1,28 @@
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <title>目录</title>
+  <link rel="stylesheet" href="../css/post.css" type="text/css" />
+</head>
+<body>
+  <h1>目录</h1>
+  {%- if options.book_mode == 'periodical' %}
+  {%- for section in data.items() %}
+  <h4>section[0]</h4>
+  <ol>
+    {%- for p in section[1] %}
+    <li><a href="{{ p.url_local }}">{{ p.title|escape }}</a></li>
+    {%- endfor %}
+  </ol>
+  {%- endfor %}
+  {%- else %}
+  <ol>
+  {%- for section in data.items() %}
+  {%- for p in section[1] %}
+    <li><a href="{{ p.url_local }}">{{ p.title|escape }}</a></li>
+  {%- endfor %}
+  {%- endfor %}
+  </ol>
+  {%- endif %}
+</body>
+</html>
