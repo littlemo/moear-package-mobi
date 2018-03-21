@@ -14,12 +14,17 @@ class Mobi(base.PackageBase):
 
     用以实现基于kindlegen的mobi打包工具
     """
-    def __init__(self, spider, *args, **kwargs):
-        super(Mobi, self).__init__(spider, *args, **kwargs)
+    def get_package_options(self):
+        """
+        获取包配置项
+        ------------
 
-        # 钩子配置，用以在全局变量初始化后进行当前打包类的定制配置
-        # 注意此处应配置打包类相关的定制配置，具体爬虫相关的配置应设置在相应爬虫的元数据中
-        self.configure({})
+        该方法返回当前打包类的自定义配置项，由基类在 ``__init__`` 方法中调用，
+        调用点位于，Package默认全局配置完成后，Spider元数据、用户元数据配置前
+
+        :returns: dict, 返回当前打包类的自定义配置项
+        """
+        return {}
 
     def generate(self, data, *args, **kwargs):
         """
@@ -28,10 +33,6 @@ class Mobi(base.PackageBase):
 
         根据传入的数据结构生成最终用于推送的文件字节字符串对象(byteStringIO)，
         MoEar会将其持久化并用于之后的推送任务
-
-        额外接受的关键字参数：
-
-        book_title: str, 书籍名称
 
         :params data dict: 待打包的数据结构
         :returns: str, 返回生成的书籍打包输出字符串
