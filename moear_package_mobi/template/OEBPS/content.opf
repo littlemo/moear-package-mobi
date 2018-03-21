@@ -25,18 +25,22 @@
   </metadata>
 
   <manifest>
-    {% for item in item_list -%}
-    <item id="{{ loop.index }}" href="{{ item.url_local }}" media-type="application/xhtml+xml"/>
-    {% endfor -%}
     <item id="ncxtoc" media-type="application/x-dtbncx+xml" href="misc/toc.ncx"/>
     <item id="cimage" media-type="image/jpeg" href="image/cover.jpg" properties="cover-image"/>
+    {%- for section in data.items() %}
+    {%- for post in section[1] %}
+    <item id="{{ post.idx }}" href="{{ post.url_local }}" media-type="application/xhtml+xml"/>
+    {%- endfor %}
+    {%- endfor %}
   </manifest>
 
   <spine toc="ncxtoc">
     <itemref idref="cimage" linear="no"/>
-    {% for item in item_list -%}
-    <itemref idref="{{ loop.index }}"/>
-    {% endfor -%}
+    {%- for section in data.items() %}
+    {%- for post in section[1] %}
+    <itemref idref="{{ post.idx }}"/>
+    {%- endfor %}
+    {%- endfor %}
   </spine>
 
   <guide>
