@@ -3,20 +3,20 @@
   <metadata>
     <dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
       <dc:identifier id="bookid">urn:isbn:{{ spider.name }}</dc:identifier>
-      {% if spider.meta.book_mode == 'periodical' %}
-      <dc:title>{{ spider.display_name|escape }} {{ pkgmeta.timestamp }}</dc:title>
       {% else %}
+      {%- if options.book_mode == 'periodical' %}
+      <dc:title>{{ spider.display_name|escape }} {{ options.timestamp }}</dc:title>
       <dc:title>{{ spider.display_name|escape }}</dc:title>
       {% endif %}
       <!-- <dc:subject></dc:subject> -->
       <dc:description>{{ spider.description }}</dc:description>
       <dc:publisher>{{ spider.display_name|escape }}</dc:publisher>
       <dc:creator>{{ spider.author }}</dc:creator>
-      <dc:language>{{ spider.meta.language }}</dc:language>
-      <dc:date>{{ pkgmeta.timestamp }}</dc:date>
       <!-- <dc:rights></dc:rights> -->
+      <dc:language>{{ options.language }}</dc:language>
+      <dc:date>{{ options.timestamp }}</dc:date>
     </dc-metadata>
-    {% if spider.meta.book_mode == 'periodical' %}
+    {%- if options.book_mode == 'periodical' %}
     <x-metadata>
       <output encoding="utf-8" content-type="application/x-mobipocket-subscription-magazine"></output>
     </x-metadata>
