@@ -67,4 +67,8 @@ h5 {
 h6 {
     font-size:1.0em;
 }
+.center {
+    text-align: center;
+}
+
 {{ extra_css }}
