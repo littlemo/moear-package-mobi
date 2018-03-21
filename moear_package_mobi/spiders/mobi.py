@@ -127,8 +127,8 @@ class MobiSpider(scrapy.Spider):
                 for item in self.item_list:
                     if post.get('origin_url') == item.get('url'):
                         post['url_local'] = item.get('url_local')
-                        post['cover_image_local'] = item.get(
-                            'cover_image_local')
+                        post['toc_thumbnail'] = item.get(
+                            'toc_thumbnail')
                         break
 
         # 拷贝封面&报头图片文件

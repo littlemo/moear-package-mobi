@@ -47,10 +47,10 @@ class PagePersistentPipeline(object):
                                 item['title'], img_src))
                         break
 
-            # 填充cover_image_local路径值
+            # 填充toc_thumbnail路径值
             for result in item['images']:
                 if item['cover_image'] == result['url']:
-                    item['cover_image_local'] = result['path']
+                    item['toc_thumbnail'] = result['path']
                     break
         item['content'] = str(soup.div)
 
