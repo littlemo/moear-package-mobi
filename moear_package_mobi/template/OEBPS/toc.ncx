@@ -24,14 +24,14 @@
         <navLabel><text>
           {{- section[0] -}}
         </text></navLabel>
-        <content src="{{ section[1][0].url_local }}" />
+        <content src="../{{ section[1][0].url_local }}" />
         {%- for p in section[1] %}
         {%- set post_loop = loop %}
         <navPoint class="article" id="article_{{ section_loop.index }}_{{ post_loop.index }}" playOrder="{{ p.playOrder }}">
           <navLabel><text>
             {{- p.title|escape -}}
           </text></navLabel>
-          <content src="{{ p.url_local }}" />
+          <content src="../{{ p.url_local }}" />
           {%- if p.excerpt %}
           <mbp:meta name="description">{{ p.excerpt }}</mbp:meta>
           {%- endif %}
@@ -57,7 +57,7 @@
         <navLabel><text>
           {{- p.title|escape -}}
         </text></navLabel>
-        <content src="{{ p.url_local }}" />
+        <content src="../{{ p.url_local }}" />
       </navPoint>
       {%- endfor %}
       {%- endfor %}
