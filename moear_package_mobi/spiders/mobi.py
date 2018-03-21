@@ -121,7 +121,8 @@ class MobiSpider(scrapy.Spider):
         idx = 1
         for section in self.data.items():
             for post in section[1]:
-                post['idx'] = idx
+                post['idx'] = 'post_{:0>3}'.format(idx)
+                post['playOrder'] = idx
                 idx += 1
                 for item in self.item_list:
                     if post.get('origin_url') == item.get('url'):
