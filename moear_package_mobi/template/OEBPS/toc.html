@@ -11,7 +11,7 @@
   <h4>section[0]</h4>
   <ol>
     {%- for p in section[1] %}
-    <li><a href="{{ p.url_local }}">{{ p.title|escape }}</a></li>
+    <li><a href="../{{ p.url_local }}">{{ p.title|escape }}</a></li>
     {%- endfor %}
   </ol>
   {%- endfor %}
@@ -19,7 +19,7 @@
   <ol>
   {%- for section in data.items() %}
   {%- for p in section[1] %}
-    <li><a href="{{ p.url_local }}">{{ p.title|escape }}</a></li>
+    <li><a href="../{{ p.url_local }}">{{ p.title|escape }}</a></li>
   {%- endfor %}
   {%- endfor %}
   </ol>
