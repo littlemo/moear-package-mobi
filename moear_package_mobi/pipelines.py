@@ -60,6 +60,21 @@ class PagePersistentPipeline(object):
         item['url_local'] = os.path.join('html', html_name)
         page_store = os.path.join(spider.tmpdir, item['url_local'])
 
+        # 将item中的生成字段添加到post中
+        idx = 0
+        post = None
+        for section in spider.data.items():
+            for p in section[1]:
+                idx += 1
+                if p.get('origin_url') == item.get('url'):
+                    post = p
+                    p['idx'] = 'post_{:0>3}'.format(idx)
+                    p['playOrder'] = idx
+                    p['content'] = item.get('content')
+                    p['url_local'] = item.get('url_local')
+                    p['toc_thumbnail'] = item.get('toc_thumbnail')
+                    break
+
         # 创建目标dirname
         dirname = os.path.dirname(page_store)
         if not os.path.exists(dirname):
@@ -67,26 +82,11 @@ class PagePersistentPipeline(object):
 
         # 基于预设模板，将文章正文本地化
         with codecs.open(page_store, 'wb', 'utf-8') as fh:
-            fh.write(spider.template_post.render(item=item))
+            fh.write(spider.template_post.render(post=post))
 
         # 为优化log打印信息，清空已处理过的字段
         item.pop('content', '')
         item.pop('image_urls', [])
         item.pop('images', [])
 
-        return item
-
-
-class ItemCollectPipeline(object):
-    """
-    将item对象收集到爬虫实例中
-    """
-
-    def process_item(self, item, spider):
-        # 删除对于收集无意义的信息
-        item.pop('cover_image', '')
-
-        # 收集处理过后的item对象
-        spider.item_list.append(item)
-        spider.logger.debug('保存item到spider: \n%s' % item)
         return item

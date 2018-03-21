@@ -92,7 +92,6 @@ COOKIES_ENABLED = False
 ITEM_PIPELINES = {
     'moear_package_mobi.pipelines.MoEarImagesPipeline': 109,
     'moear_package_mobi.pipelines.PagePersistentPipeline': 110,
-    'moear_package_mobi.pipelines.ItemCollectPipeline': 120,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

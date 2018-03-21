@@ -30,9 +30,6 @@ class MobiSpider(scrapy.Spider):
         # 为了触发parse方法，就暂时辛苦下网络测试专用站啦（大雾~~
         self.start_urls = ['https://www.baidu.com']
 
-        # 用于存储所有item的实例属性
-        self.item_list = []
-
         self.jinja_env = Environment(extensions=['jinja2.ext.loopcontrols'])
 
     def _initialize_debug_dir(self):
@@ -115,22 +112,6 @@ class MobiSpider(scrapy.Spider):
         return rc
 
     def closed(self, reason):
-        self._logger.info('输出item列表：{}'.format(self.item_list))
-
-        # 将item_list中的目标字段填充到相应post中
-        idx = 1
-        for section in self.data.items():
-            for post in section[1]:
-                post['idx'] = 'post_{:0>3}'.format(idx)
-                post['playOrder'] = idx
-                idx += 1
-                for item in self.item_list:
-                    if post.get('origin_url') == item.get('url'):
-                        post['url_local'] = item.get('url_local')
-                        post['toc_thumbnail'] = item.get(
-                            'toc_thumbnail')
-                        break
-
         # 拷贝封面&报头图片文件
         utils.mkdirp(os.path.join(self.tmpdir, 'images'))
         self._logger.info(self.options)
