@@ -14,9 +14,7 @@
     {{- options.get('book_author', spider.author) -}}
   </text></docAuthor>
   <navMap>
-
   {%- if options.book_mode == 'periodical' %}
-
     <navPoint class="periodical">
       <mbp:meta-img src="../images/masthead.gif" name="mastheadImage" />
       <navLabel><text>目录</text></navLabel>
@@ -47,9 +45,7 @@
       </navPoint>
       {%- endfor %}
     </navPoint>
-
-  {%- else -%}
-
+  {%- else %}
     <navPoint class="book">
       <navLabel><text>目录</text></navLabel>
       {%- for section in data.items() %}
@@ -65,8 +61,6 @@
       {%- endfor %}
       {%- endfor %}
     </navPoint>
-
   {%- endif %}
-
   </navMap>
 </ncx>
