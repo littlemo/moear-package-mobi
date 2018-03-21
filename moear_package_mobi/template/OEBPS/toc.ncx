@@ -7,8 +7,12 @@
     <meta name="dtb:totalPageCount" content="0"/>
     <meta name="dtb:maxPageNumber" content="0"/>
   </head>
-  <docTitle><text>{{ options.get('book_title', spider.display_name) }}</text></docTitle>
-  <docAuthor><text>{{ options.get('book_author', spider.author) }}</text></docAuthor>
+  <docTitle><text>
+    {{- options.get('book_title', spider.display_name) -}}
+  </text></docTitle>
+  <docAuthor><text>
+    {{- options.get('book_author', spider.author) -}}
+  </text></docAuthor>
   <navMap>
 
   {%- if options.book_mode == 'periodical' %}
