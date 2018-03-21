@@ -130,6 +130,16 @@ class MobiSpider(scrapy.Spider):
                             'cover_image_local')
                         break
 
+        # 拷贝封面&报头图片文件
+        utils.mkdirp(os.path.join(self.tmpdir, 'images'))
+        self._logger.info(self.options)
+        shutil.copy(
+            self.options.get('img_cover'),
+            os.path.join(self.tmpdir, 'images', 'cover.jpg'))
+        shutil.copy(
+            self.options.get('img_masthead'),
+            os.path.join(self.tmpdir, 'images', 'masthead.gif'))
+
         # 获取css模板对象
         template_css_path = os.path.join(
             self.template_dir, 'post.css')
