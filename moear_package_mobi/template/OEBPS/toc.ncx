@@ -51,21 +51,19 @@
   {%- else -%}
 
     <navPoint class="book">
-      <navLabel><text>MoEar</text></navLabel>
-      {% for item in data.items() %}
+      <navLabel><text>目录</text></navLabel>
+      {%- for section in data.items() %}
       {%- set section_loop = loop %}
-      {% for p in item[1] %}
-      {%- set post_loop = loop -%}
-      {% for item_local in item_list %}
-      {%- if item_local.url != p.origin_url %}{% continue %}{% endif -%}
-      <navPoint class="chapter" id="chapter_{{ section_loop.index }}_{{ post_loop.index }}" playOrder="{{ loop.index }}">
-        <navLabel><text>{{ p.title|escape }}</text></navLabel>
-        <content src="{{ item_local.url_local }}" />
+      {%- for p in section[1] %}
+      {%- set post_loop = loop %}
+      <navPoint class="chapter" id="chapter_{{ section_loop.index }}_{{ post_loop.index }}" playOrder="{{ p.playOrder }}">
+        <navLabel><text>
+          {{- p.title|escape -}}
+        </text></navLabel>
+        <content src="{{ p.url_local }}" />
       </navPoint>
-      {%- break %}
-      {% endfor %}
-      {% endfor %}
-      {% endfor -%}
+      {%- endfor %}
+      {%- endfor %}
     </navPoint>
 
   {%- endif %}
