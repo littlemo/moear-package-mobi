@@ -169,13 +169,13 @@ class MobiSpider(scrapy.Spider):
                 spider=self.spider,
                 options=self.options))
 
-        # 获取toc模板对象
+        # 获取toc.ncx模板对象
         template_toc_path = os.path.join(
             self.template_dir, 'OEBPS', 'toc.ncx')
         with open(template_toc_path, 'r') as fh:
-            template_toc = self.jinja_env.from_string(fh.read())
+            template_toc = Template(fh.read())
 
-        # 渲染toc目标文件
+        # 渲染toc.ncx目标文件
         toc_path = os.path.join(self.tmpdir, 'misc', 'toc.ncx')
         utils.mkdirp(os.path.dirname(toc_path))
         with codecs.open(toc_path, 'wb', 'utf-8') as fh:
@@ -184,3 +184,16 @@ class MobiSpider(scrapy.Spider):
                 spider=self.spider,
                 options=self.options))
 
+        # 获取toc.html模板对象
+        template_toc_path = os.path.join(
+            self.template_dir, 'OEBPS', 'toc.html')
+        with open(template_toc_path, 'r') as fh:
+            template_toc = Template(fh.read())
+
+        # 渲染toc.html目标文件
+        toc_path = os.path.join(self.tmpdir, 'html', 'toc.html')
+        utils.mkdirp(os.path.dirname(toc_path))
+        with codecs.open(toc_path, 'wb', 'utf-8') as fh:
+            fh.write(template_toc.render(
+                data=self.data,
+                options=self.options))
