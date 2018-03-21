@@ -20,25 +20,32 @@
     <navPoint class="periodical">
       <mbp:meta-img src="../images/masthead.gif" name="mastheadImage" />
       <navLabel><text>目录</text></navLabel>
-      {% for item in data.items() %}
-      {% set section_loop = loop -%}
+      {%- for section in data.items() %}
+      {%- set section_loop = loop %}
       <navPoint class="section" id="section_{{ section_loop.index }}">
-        <navLabel><text>{{ item[0] }}</text></navLabel>
-        {% for p in item[1] %}
+        <navLabel><text>
+          {{- section[0] -}}
+        </text></navLabel>
+        {%- for p in section[1] %}
         {%- set post_loop = loop %}
-        {% for item_local in item_list %}
-        {%- if item_local.url != p.origin_url %}{% continue %}{% endif -%}
-        <navPoint class="article" id="article_{{ section_loop.index }}_{{ post_loop.index }}" playOrder="{{ post_loop.index }}">
-          <navLabel><text>{{ item_local.title|escape }}</text></navLabel>
-          <content src="{{ item_local.url_local }}" />
-          <mbp:meta name="description">{{ p.excerpt|escape }}</mbp:meta>
+        <navPoint class="article" id="article_{{ section_loop.index }}_{{ post_loop.index }}" playOrder="{{ p.playOrder }}">
+          <navLabel><text>
+            {{- p.title|escape -}}
+          </text></navLabel>
+          <content src="{{ p.url_local }}" />
+          {%- if p.excerpt %}
+          <mbp:meta name="description">{{ p.excerpt }}</mbp:meta>
+          {%- endif %}
+          {%- if p.toc_thumbnail %}
+          <mbp:meta name="toc_thumbnail">{{ p.toc_thumbnail }}</mbp:meta>
+          {%- endif %}
+          {%- if p.author %}
           <mbp:meta name="author">{{ p.author }}</mbp:meta>
+          {%- endif %}
         </navPoint>
-        {%- break %}
-        {% endfor %}
-        {% endfor -%}
+        {%- endfor %}
       </navPoint>
-      {% endfor %}
+      {%- endfor %}
     </navPoint>
 
   {%- else -%}
