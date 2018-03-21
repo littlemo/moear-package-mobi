@@ -41,10 +41,8 @@
     {%- endfor %}
     {%- endfor %}
   </spine>
-
   <guide>
-    <reference type="start" title="start" href="toc.ncx"></reference>
-    <reference type="toc" title="toc" href="toc.ncx"></reference>
-    <reference type="text" title="cover" href="cover.jpg"></reference>
+    <reference type="toc" title="Table of Contents" href="html/toc.html"/>
+    <reference type="text" title="Content" href="html/toc.html"/>
   </guide>
 </package>
