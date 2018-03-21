@@ -18,6 +18,7 @@
   {%- if options.book_mode == 'periodical' %}
 
     <navPoint class="periodical">
+      <mbp:meta-img src="../images/masthead.gif" name="mastheadImage" />
       <navLabel><text>目录</text></navLabel>
       {% for item in data.items() %}
       {% set section_loop = loop -%}
