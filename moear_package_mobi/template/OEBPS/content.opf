@@ -22,8 +22,10 @@
 
   <manifest>
     <item id="ncxtoc" media-type="application/x-dtbncx+xml" href="misc/toc.ncx"/>
-    <item href="html/toc.html" media-type="application/xhtml+xml" id="htmltoc"/>
+
     <item id="cimage" media-type="image/jpeg" href="images/cover.jpg" properties="cover-image"/>
+
+    <item href="html/toc.html" media-type="application/xhtml+xml" id="htmltoc"/>
     {%- for section in data.items() %}
     {%- for post in section[1] %}
     <item id="{{ post.idx }}" href="{{ post.url_local }}" media-type="application/xhtml+xml"/>
