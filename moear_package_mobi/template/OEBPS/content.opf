@@ -3,11 +3,7 @@
   <metadata>
     <dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
       <dc:identifier id="bookid">urn:isbn:{{ spider.name }}</dc:identifier>
-      {%- if options.book_mode == 'periodical' %}
-      <dc:title>{{ spider.display_name|escape }} {{ options.timestamp }}</dc:title>
-      {%- else %}
       <dc:title>{{ spider.display_name|escape }}</dc:title>
-      {%- endif %}
       {#- <dc:subject></dc:subject> #}
       <dc:description>{{ spider.description }}</dc:description>
       <dc:publisher>{{ spider.display_name|escape }}</dc:publisher>
