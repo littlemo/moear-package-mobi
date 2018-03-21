@@ -122,19 +122,26 @@ class MobiSpider(scrapy.Spider):
             self.options.get('img_masthead'),
             os.path.join(self.tmpdir, 'images', 'masthead.gif'))
 
-        # 获取css模板对象
-        template_css_path = os.path.join(
-            self.template_dir, 'post.css')
-        with open(template_css_path, 'r') as fh:
-            template_css = Template(fh.read())
+        # 拷贝css文件
+        css_base_path = self.options.get('css_base')
+        css_package_path = self.options.get('css_package')
+        css_extra = self.options.get('extra_css', '')
+        css_output_dir = os.path.join(self.tmpdir, 'css')
+        utils.mkdirp(css_output_dir)
+        if css_base_path:
+            shutil.copy(
+                css_base_path,
+                os.path.join(css_output_dir, 'base.css'))
+        if css_package_path:
+            shutil.copy(
+                css_package_path,
+                os.path.join(css_output_dir, 'package.css'))
+        if css_extra:
+            with codecs.open(
+                    os.path.join(css_output_dir, 'custom.css'),
+                    'wb', 'utf-8') as fh:
+                fh.write(css_extra)
 
-        # 渲染css目标文件
-        extra_css = self.options.get('extra_css', '')
-        css_path = os.path.join(self.tmpdir, 'css', 'post.css')
-        utils.mkdirp(os.path.dirname(css_path))
-        with codecs.open(css_path, 'wb', 'utf-8') as fh:
-            fh.write(template_css.render(
-                extra_css=extra_css))
 
         # 获取content模板对象
         template_content_path = os.path.join(

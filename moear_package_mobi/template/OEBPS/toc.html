@@ -2,7 +2,12 @@
 <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
   <title>目录</title>
-  <link rel="stylesheet" href="../css/post.css" type="text/css" />
+  {%- if options.css_base %}
+  <link rel="stylesheet" href="../css/base.css" type="text/css" />
+  {%- endif %}
+  {%- if options.extra_css %}
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+  {%- endif %}
 </head>
 <body>
   <h1>目录</h1>

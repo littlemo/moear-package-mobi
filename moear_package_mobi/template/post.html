@@ -3,7 +3,15 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>{{ post.title }}</title>
-  <link rel="stylesheet" href="../css/post.css" type="text/css" />
+  {%- if options.css_base %}
+  <link rel="stylesheet" href="../css/base.css" type="text/css" />
+  {%- endif %}
+  {%- if options.css_package %}
+  <link rel="stylesheet" href="../css/package.css" type="text/css" />
+  {%- endif %}
+  {%- if options.extra_css %}
+  <link rel="stylesheet" href="../css/custom.css" type="text/css" />
+  {%- endif %}
 </head>
 <body>
 <h1 class="center">{{ post.title }}</h1>
