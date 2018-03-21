@@ -18,7 +18,7 @@
   {%- if options.book_mode == 'periodical' %}
 
     <navPoint class="periodical">
-      <navLabel><text>{{ spider.display_name|escape }} {{ options.timestamp }}</text></navLabel>
+      <navLabel><text>目录</text></navLabel>
       {% for item in data.items() %}
       {% set section_loop = loop -%}
       <navPoint class="section" id="section_{{ section_loop.index }}">
