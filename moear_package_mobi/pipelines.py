@@ -38,9 +38,13 @@ class PagePersistentPipeline(object):
             img_list = soup.find_all('img')
             for i in img_list:
                 img_src = i.get('src')
+
+                # 删除image_urls_removed中的img，避免由于未本地化造成mobi生成失败
+                if img_src in item.get('image_urls_removed', []):
+                    i['src'] = '../icons/delete.jpg'
+
                 for result in item.get('images', []):
                     if img_src == result['url']:
-                        # raw_path_list = result['path'].split('/')
                         i['src'] = os.path.join('..', result['path'])
                         spider._logger.debug(
                             '文章({})的正文img保存成功: {}'.format(

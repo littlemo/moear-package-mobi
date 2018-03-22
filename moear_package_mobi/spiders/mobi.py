@@ -146,6 +146,12 @@ class MobiSpider(scrapy.Spider):
                     'wb', 'utf-8') as fh:
                 fh.write(css_extra)
 
+        # 拷贝icons路径文件
+        common_icons_path = self.options.get('common_icons_path')
+        icons_output_dir = os.path.join(self.tmpdir, 'icons')
+        shutil.rmtree(icons_output_dir, ignore_errors=True)
+        if common_icons_path:
+            shutil.copytree(common_icons_path, icons_output_dir)
 
         # 获取content模板对象
         template_content_path = os.path.join(
