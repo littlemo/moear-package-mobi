@@ -14,15 +14,15 @@ class Mobi(base.PackageBase):
 
     用以实现基于kindlegen的mobi打包工具
     """
-    def get_package_options(self):
+    def hook_custom_options(self):
         """
-        获取包配置项
+        配置定制配置项钩子
         ------------
 
-        该方法返回当前打包类的自定义配置项，由基类在 ``__init__`` 方法中调用，
-        调用点位于，Package默认全局配置完成后，Spider元数据、用户元数据配置前
+        该方法返回当前类的自定义配置项，由基类在 ``__init__`` 方法中调用，
+        调用点位于，Common默认全局配置完成后，Spider元数据、用户元数据配置前
 
-        :returns: dict, 返回当前打包类的自定义配置项
+        :returns: dict, 返回当前类的自定义配置项
         """
         return {}
 
