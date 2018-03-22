@@ -19,4 +19,5 @@ class MoearPackageMobiItem(scrapy.Item):
     toc_thumbnail = scrapy.Field()  # 文章略缩图，文章封面图片持久化后的本地路径
 
     image_urls = scrapy.Field()  # 图片链接
+    image_urls_removed = scrapy.Field()  # 被filter过滤掉的图片链接
     images = scrapy.Field()  # 图片存储返回

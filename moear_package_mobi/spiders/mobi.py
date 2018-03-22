@@ -81,8 +81,9 @@ class MobiSpider(scrapy.Spider):
                     self._populated_image_urls_with_content(item['content'])
                 self._logger.debug(
                     '待处理的图片url(过滤前): {}'.format(item['image_urls']))
-                item['image_urls'] = self.filter_images_urls(
-                    item['image_urls'], image_filter)
+                item['image_urls'], item['image_urls_removed'] = \
+                    self.filter_images_urls(
+                        item['image_urls'], image_filter)
                 self._logger.debug(
                     '待处理的图片url: {}'.format(item['image_urls']))
 
@@ -95,21 +96,24 @@ class MobiSpider(scrapy.Spider):
     @staticmethod
     def filter_images_urls(image_urls, image_filter):
         rc = copy.deepcopy(image_urls)
+        rc_removed = []
         for i in image_urls:
             if isinstance(image_filter, str):
                 if not image_filter:
                     break
                 if re.search(image_filter, i):
                     rc.remove(i)
+                    rc_removed.append(i)
             elif isinstance(image_filter, list):
                 if not all(image_filter):
                     break
                 for f in image_filter:
                     if re.search(f, i):
                         rc.remove(i)
+                        rc_removed.append(i)
             else:
                 raise TypeError('image_filter not str or list')
-        return rc
+        return rc, rc_removed
 
     def closed(self, reason):
         # 拷贝封面&报头图片文件
