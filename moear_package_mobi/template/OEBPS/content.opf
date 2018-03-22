@@ -34,6 +34,7 @@
   </manifest>
 
   <spine toc="ncxtoc">
+    <itemref idref="cimage" linear="no"/>
     <itemref idref="htmltoc"/>
     {%- for section in data.items() %}
     {%- for post in section[1] %}
