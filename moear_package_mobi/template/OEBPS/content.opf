@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="{{ spider.name }}">
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
   <metadata>
     <dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-      <dc:identifier id="bookid">urn:isbn:{{ spider.name }}</dc:identifier>
       <dc:title>{{ spider.display_name|escape }}</dc:title>
-      {#- <dc:subject></dc:subject> #}
-      <dc:description>{{ spider.description }}</dc:description>
-      <dc:publisher>{{ spider.display_name|escape }}</dc:publisher>
-      <dc:creator>{{ spider.author }}</dc:creator>
       <dc:language>{{ options.language }}</dc:language>
+      <dc:identifier id="BookId" opf:scheme="ISBN">{{ spider.name }}</dc:identifier>
+      <dc:creator>{{ spider.author }}</dc:creator>
+      <dc:publisher>{{ spider.display_name|escape }}</dc:publisher>
+      {#- <dc:subject></dc:subject> #}
       <dc:date>{{ options.timestamp }}</dc:date>
+      <dc:description>{{ spider.description }}</dc:description>
       {#- <dc:rights></dc:rights> #}
     </dc-metadata>
     {%- if options.book_mode == 'periodical' %}

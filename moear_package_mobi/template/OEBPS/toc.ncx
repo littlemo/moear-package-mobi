@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="zh-CN">
   <head>
-    <meta name="cover" content="cover"/>
-    <meta name="dtb:uid" content="isbn:{{ spider.name }}"/>
+    <meta name="cover" content="cimage"/>
+    <meta name="dtb:uid" content="BookId"/>
     <meta name="dtb:depth" content="2"/>
     <meta name="dtb:totalPageCount" content="0"/>
     <meta name="dtb:maxPageNumber" content="0"/>
