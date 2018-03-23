@@ -10,6 +10,12 @@ class CrawlerScript():
         self.options = options
         settings = Settings()
         settings.setmodule(config)
+
+        if self.options.get('img_reduce_to'):
+            images_thumbs = settings.get('IMAGES_THUMBS')
+            images_thumbs['kindle'] = self.options.get('img_reduce_to')
+            settings.set('IMAGES_THUMBS', images_thumbs)
+
         self.crawler = CrawlerProcess(settings)
 
     def _crawl(self, *args, **kwargs):
