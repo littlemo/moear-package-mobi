@@ -1,3 +1,5 @@
+import os
+
 from scrapy.crawler import CrawlerProcess
 from scrapy.settings import Settings
 from billiard import Process
@@ -10,6 +12,15 @@ class CrawlerScript():
         self.options = options
         settings = Settings()
         settings.setmodule(config)
+
+        _build_dir = self.options.get('package_build_dir')
+        _mobi_dir = os.path.join(_build_dir, 'mobi')
+        _temp_dir = os.path.join(_build_dir, 'temp')
+        _images_store = os.path.join(_temp_dir, 'images')
+        settings.set('BUILD_DIR', _build_dir)
+        settings.set('MOBI_DIR', _mobi_dir)
+        settings.set('TEMP_DIR', _temp_dir)
+        settings.set('IMAGES_STORE', _images_store)
 
         if self.options.get('img_reduce_to'):
             images_thumbs = settings.get('IMAGES_THUMBS')

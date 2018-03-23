@@ -1,3 +1,4 @@
+import os
 import sys
 import logging
 import unittest
@@ -12,6 +13,9 @@ format = logging.Formatter("%(asctime)s - %(message)s")  # output format
 sh = logging.StreamHandler(stream=sys.stdout)  # output to standard output
 sh.setFormatter(format)
 log.addHandler(sh)
+
+_base_dir = os.path.dirname(os.path.abspath(__file__))
+_build_dir = os.path.join(_base_dir, '..', 'build')
 
 
 class TestSpiderEntryMethods(unittest.TestCase):
@@ -65,11 +69,13 @@ class TestSpiderEntryMethods(unittest.TestCase):
         usermeta = {
             'timestamp': '2018-03-17',
 
+            # 测试时额外指定构建路径
+            'package_build_dir': _build_dir,
+
             # 用于测试生成 custom.css
             'extra_css': '.test {margin: 0 auto;}'
         }
-        rc = entry.Mobi(
-            spider,
-            usermeta=usermeta).generate(data, debug=True)
-        log.info(rc)
+        rc = entry.Mobi(spider, usermeta=usermeta).generate(data)
+        with open(os.path.join(_build_dir, 'output.mobi'), 'wb') as fh:
+            fh.write(rc)
         self.assertIsInstance(rc, str)

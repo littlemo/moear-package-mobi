@@ -28,44 +28,29 @@ class MobiSpider(scrapy.Spider):
 
         # 关键字参数
         self._logger = kwargs.get('log', self.logger)
-        self.debug = kwargs.get('debug', False)
 
         # 为了触发parse方法，就暂时辛苦下网络测试专用站啦（大雾~~
         self.start_urls = ['https://www.baidu.com']
 
         self.jinja_env = Environment(extensions=['jinja2.ext.loopcontrols'])
 
-    def _initialize_debug_dir(self):
-        if self.debug:
-            self.output_directory = utils.mkdirp(os.path.join(
-                self.base_dir, 'build', 'output'))
-            temp = os.path.join(self.base_dir, 'build', 'temp')
-            shutil.rmtree(temp, ignore_errors=True)
-            self.tmpdir = utils.mkdirp(temp)
-
     def parse(self, response):
         """
         从self.data中将文章信息格式化为item
         """
         # 工作&输出路径
-        self.base_dir = self.settings.get(
-            'BASE_DIR',
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.template_dir = self.settings.get(
-            'TEMPLATE_DIR',
-            os.path.join(self.base_dir, 'template'))
-        self.output_directory = tempfile.mkdtemp()
-        self.tmpdir = tempfile.mkdtemp()
+        self.template_dir = self.settings.get('TEMPLATE_DIR')
+        shutil.rmtree(self.settings.get('BUILD_DIR'), ignore_errors=True)
+        self.mobi_dir = utils.mkdirp(self.settings.get('MOBI_DIR'))
+        self.tmpdir = utils.mkdirp(self.settings.get('TEMP_DIR'))
 
         # 获取Post模板对象
         template_post_path = os.path.join(self.template_dir, 'post.html')
         with open(template_post_path, 'r') as f:
             self.template_post = Template(f.read())
 
-        self._initialize_debug_dir()
-
-        self._logger.info('临时路径 => {0}'.format(self.tmpdir))
-        self._logger.info('输出路径 => {0}'.format(self.output_directory))
+        self._logger.info('处理路径 => {0}'.format(self.tmpdir))
+        self._logger.info('输出路径 => {0}'.format(self.mobi_dir))
 
         image_filter = self.options.get('image_filter', '')
         for sections in self.data.values():
