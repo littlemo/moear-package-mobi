@@ -1,4 +1,6 @@
+import os
 import logging
+import tempfile
 
 from moear_api_common import base
 
@@ -42,5 +44,15 @@ class Mobi(base.PackageBase):
         :params data dict: 待打包的数据结构
         :returns: str, 返回生成的书籍打包输出字符串
         """
-        crawler = CrawlerScript(self.options)
-        crawler.crawl(data, self.spider, *args, **kwargs)
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            if not self.options['package_build_dir']:
+                self.options['package_build_dir'] = tmpdirname
+            crawler = CrawlerScript(self.options)
+            crawler.crawl(data, self.spider, *args, **kwargs)
+
+            output_file = os.path.join(
+                self.options['package_build_dir'], 'mobi', 'output.mobi')
+            with open(output_file, 'rb') as fh:
+                content = fh.read()
+
+        return content
