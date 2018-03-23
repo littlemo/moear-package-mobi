@@ -16,7 +16,10 @@
 <body>
 <h1 class="center">{{ post.title }}</h1>
 <div>作者：{{ post.author }}</div>
-<hr />
+{%- if post.toc_thumbnail %}
+<img class="center" src="../{{ post.toc_thumbnail }}" alt="toc_thumbnail" />
+<div class="pagebreak"></div>
+{%- endif %}
 {{ post.content }}
 <div class="pagebreak"></div>
 </body>
