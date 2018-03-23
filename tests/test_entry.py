@@ -52,6 +52,10 @@ class TestSpiderEntryMethods(unittest.TestCase):
                 'package_module': 'mobi',
                 'language': 'zh-CN',
                 'book_mode': 'periodical',  # 'periodical' | 'book'
+
+                # 关闭toc中的缩略图显示
+                'toc_thumbnail_generate': False,
+
                 'image_filter': ['zhihu.com/equation'],
                 'css_package':
                     '/Users/moore/Develop/moear/plugin/moear-spider-zhihudail'
