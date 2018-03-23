@@ -18,10 +18,13 @@ from moear_api_common import utils
 class MobiSpider(scrapy.Spider):
     name = 'mobi'
 
-    def __init__(self, data, spider, options, *args, **kwargs):
+    def __init__(self, data, spider, *args, **kwargs):
         self.data = data
         self.spider = spider
-        self.options = options
+        self.options = kwargs.get('options')
+
+        if not self.options:
+            raise ValueError('未传入 options 关键字参数')
 
         # 关键字参数
         self._logger = kwargs.get('log', self.logger)

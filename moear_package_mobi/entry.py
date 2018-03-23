@@ -3,6 +3,7 @@ import datetime
 
 from moear_api_common import base
 
+from .crawler_script import CrawlerScript
 
 log = logging.getLogger(__name__)
 
@@ -42,8 +43,6 @@ class Mobi(base.PackageBase):
         :params data dict: 待打包的数据结构
         :returns: str, 返回生成的书籍打包输出字符串
         """
-        crawler = CrawlerScript()
-        crawler.crawl(data, self.spider, self.options, *args, **kwargs)
         # 准备基础参数
         opts = None
         oeb = None
@@ -110,3 +109,5 @@ class Mobi(base.PackageBase):
         o.convert(oeb, oIO, opts, _log)
         _log.info("%s.mobi Sent!" % (book_title))
         return str(oIO.getvalue())
+        crawler = CrawlerScript(self.options)
+        crawler.crawl(data, self.spider, *args, **kwargs)
