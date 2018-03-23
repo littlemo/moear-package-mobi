@@ -5,6 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import os
+import re
 import codecs
 import hashlib
 
@@ -24,6 +25,20 @@ class MoEarImagesPipeline(ImagesPipeline):
         info.spider._logger.debug(
             '保存图片：{} | {} | {}'.format(response, request, url))
         return url
+
+    def item_completed(self, results, item, info):
+        # 处理 results 中的 path 使用缩略图路径替代
+        for ok, result in results:
+            if not ok:
+                continue
+            path = result['path']
+            path = re.sub(r'full', os.path.join('thumbs', 'kindle'), path)
+            result['path'] = path
+
+        info.spider._logger.debug(results)
+        item = super(MoEarImagesPipeline, self).item_completed(
+            results, item, info)
+        return item
 
 
 class PagePersistentPipeline(object):

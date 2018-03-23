@@ -123,3 +123,6 @@ OUTPUT_DIR = os.path.join(BUILD_DIR, 'output')
 TEMP_DIR = os.path.join(BUILD_DIR, 'temp')
 
 IMAGES_STORE = os.path.join(TEMP_DIR, 'images')
+IMAGES_THUMBS = {
+    'kindle': (600, 800),
+}
