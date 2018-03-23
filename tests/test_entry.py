@@ -4,6 +4,7 @@ import logging
 import unittest
 from collections import OrderedDict
 
+from moear_api_common import utils
 from moear_package_mobi import entry
 
 
@@ -76,6 +77,7 @@ class TestSpiderEntryMethods(unittest.TestCase):
             'extra_css': '.test {margin: 0 auto;}'
         }
         rc = entry.Mobi(spider, usermeta=usermeta).generate(data)
+        utils.mkdirp(_build_dir)  # 用于不指定build_dir时的输出路径创建，仅用于当前测试
         with open(os.path.join(_build_dir, 'output.mobi'), 'wb') as fh:
             fh.write(rc)
         self.assertIsInstance(rc, str)
