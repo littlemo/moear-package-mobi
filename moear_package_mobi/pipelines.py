@@ -75,7 +75,7 @@ class PagePersistentPipeline(object):
 
                 for result in item.get('images', []):
                     if img_src == result['url']:
-                        i['src'] = os.path.join('..', result['path'])
+                        i['src'] = os.path.join('..', 'images', result['path'])
                         spider._logger.debug(
                             '文章({})的正文img保存成功: {}'.format(
                                 item['title'], img_src))
@@ -84,7 +84,8 @@ class PagePersistentPipeline(object):
             # 填充toc_thumbnail路径值
             for result in item['images']:
                 if item['cover_image'] == result['url']:
-                    item['toc_thumbnail'] = result['path']
+                    item['toc_thumbnail'] = os.path.join(
+                        'images', result['path'])
                     break
         item['content'] = str(soup.div)
 
