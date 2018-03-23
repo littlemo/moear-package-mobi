@@ -117,5 +117,9 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'template')
-OUTPUT_DIR = os.path.join(BASE_DIR, 'build', 'output')
-IMAGES_STORE = os.path.join(BASE_DIR, 'build', 'temp')
+
+BUILD_DIR = os.path.join(BASE_DIR, 'build')
+OUTPUT_DIR = os.path.join(BUILD_DIR, 'output')
+TEMP_DIR = os.path.join(BUILD_DIR, 'temp')
+
+IMAGES_STORE = os.path.join(TEMP_DIR, 'images')
