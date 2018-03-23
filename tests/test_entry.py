@@ -64,6 +64,9 @@ class TestSpiderEntryMethods(unittest.TestCase):
         }
         usermeta = {
             'timestamp': '2018-03-17',
+
+            # 用于测试生成 custom.css
+            'extra_css': '.test {margin: 0 auto;}'
         }
         rc = entry.Mobi(
             spider,
