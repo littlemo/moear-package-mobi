@@ -14,6 +14,8 @@ from bs4 import BeautifulSoup
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy.utils.python import to_bytes
 
+from moear_api_common.utils import img
+
 
 class MoEarImagesPipeline(ImagesPipeline):
     """
@@ -34,6 +36,20 @@ class MoEarImagesPipeline(ImagesPipeline):
             path = result['path']
             path = re.sub(r'full', os.path.join('thumbs', 'kindle'), path)
             result['path'] = path
+
+        # 处理缩略图为灰度图，为便于在电纸书上节省空间
+        if info.spider.options.get('img_convert_to_gray'):
+            images_store = info.spider.settings.get('IMAGES_STORE')
+            for ok, result in results:
+                if not ok:
+                    continue
+
+                img_path = os.path.join(images_store, result['path'])
+                with open(img_path, 'rb+') as fh:
+                    output = img.gray_image(fh.read())
+                    fh.seek(0)
+                    fh.truncate()
+                    fh.write(output)
 
         info.spider._logger.debug(results)
         item = super(MoEarImagesPipeline, self).item_completed(
