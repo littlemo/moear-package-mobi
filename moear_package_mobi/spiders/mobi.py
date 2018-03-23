@@ -4,7 +4,6 @@ import re
 import copy
 import codecs
 import shutil
-import tempfile
 
 import scrapy
 from jinja2 import Environment
