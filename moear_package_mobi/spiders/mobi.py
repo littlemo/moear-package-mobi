@@ -28,6 +28,11 @@ class MobiSpider(scrapy.Spider):
         # 关键字参数
         self._logger = kwargs.get('log', self.logger)
 
+        # 设置 timestamp 默认值
+        if not self.options.get('timestamp'):
+            self.options['timestamp'] = datetime.date.today() \
+                .strftime('%Y-%m-%d')
+
         # 为了触发parse方法，就暂时辛苦下网络测试专用站啦（大雾~~
         self.start_urls = ['https://www.baidu.com']
 
