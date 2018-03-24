@@ -5,6 +5,7 @@ import copy
 import codecs
 import shutil
 import datetime
+import subprocess
 
 import scrapy
 from jinja2 import Environment
@@ -13,6 +14,7 @@ from scrapy.selector import Selector
 from ..items import MoearPackageMobiItem
 
 from moear_api_common import utils
+from moear_api_common.utils import kindlegen
 
 
 class MobiSpider(scrapy.Spider):
@@ -108,6 +110,23 @@ class MobiSpider(scrapy.Spider):
                 raise TypeError('image_filter not str or list')
         return rc, rc_removed
 
+    def generate_mobi_file(self):
+        current_package_dir = os.path.dirname(os.path.dirname(
+            os.path.abspath(__file__)))
+        kg = kindlegen.find_kindlegen_prog(current_package_dir)
+        self._logger.debug('获取到 KindleGen => {}'.format(kg))
+
+        opf_file = os.path.join(self.build_source_dir, 'moear.opf')
+        command_list = [kg, opf_file, '-dont_append_source']
+        output = subprocess.Popen(
+            command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            shell=False).communicate()
+        self._logger.info('生成命令: {}'.format(' '.join(command_list)))
+        self._logger.info('生成 mobi : {}'.format(
+            output[0].decode()))
+        if output[1]:
+            self._logger.error(output[1].decode())
+
     def closed(self, reason):
         # 拷贝封面&报头图片文件
         utils.mkdirp(os.path.join(self.build_source_dir, 'images'))
@@ -188,3 +207,6 @@ class MobiSpider(scrapy.Spider):
             fh.write(template_toc.render(
                 data=self.data,
                 options=self.options))
+
+        # 生成mobi文件到mobi_dir
+        self.generate_mobi_file()
