@@ -40,16 +40,15 @@ class MobiSpider(scrapy.Spider):
         # 工作&输出路径
         self.template_dir = self.settings.get('TEMPLATE_DIR')
         shutil.rmtree(self.settings.get('BUILD_DIR'), ignore_errors=True)
-        self.mobi_dir = utils.mkdirp(self.settings.get('MOBI_DIR'))
-        self.tmpdir = utils.mkdirp(self.settings.get('TEMP_DIR'))
+        self.build_source_dir = utils.mkdirp(
+            self.settings.get('BUILD_SOURCE_DIR'))
 
         # 获取Post模板对象
         template_post_path = os.path.join(self.template_dir, 'post.html')
         with open(template_post_path, 'r') as f:
             self.template_post = Template(f.read())
 
-        self._logger.info('处理路径 => {0}'.format(self.tmpdir))
-        self._logger.info('输出路径 => {0}'.format(self.mobi_dir))
+        self._logger.info('构建处理路径 => {0}'.format(self.build_source_dir))
 
         image_filter = self.options.get('image_filter', '')
         for sections in self.data.values():
@@ -104,20 +103,20 @@ class MobiSpider(scrapy.Spider):
 
     def closed(self, reason):
         # 拷贝封面&报头图片文件
-        utils.mkdirp(os.path.join(self.tmpdir, 'images'))
+        utils.mkdirp(os.path.join(self.build_source_dir, 'images'))
         self._logger.info(self.options)
         shutil.copy(
             self.options.get('img_cover'),
-            os.path.join(self.tmpdir, 'images', 'cover.jpg'))
+            os.path.join(self.build_source_dir, 'images', 'cover.jpg'))
         shutil.copy(
             self.options.get('img_masthead'),
-            os.path.join(self.tmpdir, 'images', 'masthead.gif'))
+            os.path.join(self.build_source_dir, 'images', 'masthead.gif'))
 
         # 拷贝css文件
         css_base_path = self.options.get('css_base')
         css_package_path = self.options.get('css_package')
         css_extra = self.options.get('extra_css', '')
-        css_output_dir = os.path.join(self.tmpdir, 'css')
+        css_output_dir = os.path.join(self.build_source_dir, 'css')
         utils.mkdirp(css_output_dir)
         if css_base_path:
             shutil.copy(
@@ -135,7 +134,7 @@ class MobiSpider(scrapy.Spider):
 
         # 拷贝icons路径文件
         common_icons_path = self.options.get('common_icons_path')
-        icons_output_dir = os.path.join(self.tmpdir, 'icons')
+        icons_output_dir = os.path.join(self.build_source_dir, 'icons')
         shutil.rmtree(icons_output_dir, ignore_errors=True)
         if common_icons_path:
             shutil.copytree(common_icons_path, icons_output_dir)
@@ -147,7 +146,7 @@ class MobiSpider(scrapy.Spider):
             template_content = Template(fh.read())
 
         # 渲染content目标文件
-        content_path = os.path.join(self.tmpdir, 'moear.opf')
+        content_path = os.path.join(self.build_source_dir, 'moear.opf')
         with codecs.open(content_path, 'wb', 'utf-8') as fh:
             fh.write(template_content.render(
                 data=self.data,
@@ -161,7 +160,7 @@ class MobiSpider(scrapy.Spider):
             template_toc = Template(fh.read())
 
         # 渲染toc.ncx目标文件
-        toc_path = os.path.join(self.tmpdir, 'misc', 'toc.ncx')
+        toc_path = os.path.join(self.build_source_dir, 'misc', 'toc.ncx')
         utils.mkdirp(os.path.dirname(toc_path))
         with codecs.open(toc_path, 'wb', 'utf-8') as fh:
             fh.write(template_toc.render(
@@ -176,7 +175,7 @@ class MobiSpider(scrapy.Spider):
             template_toc = Template(fh.read())
 
         # 渲染toc.html目标文件
-        toc_path = os.path.join(self.tmpdir, 'html', 'toc.html')
+        toc_path = os.path.join(self.build_source_dir, 'html', 'toc.html')
         utils.mkdirp(os.path.dirname(toc_path))
         with codecs.open(toc_path, 'wb', 'utf-8') as fh:
             fh.write(template_toc.render(

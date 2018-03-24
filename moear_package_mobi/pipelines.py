@@ -93,7 +93,7 @@ class PagePersistentPipeline(object):
         article_html_name = hashlib.sha1(to_bytes(item['url'])).hexdigest()
         html_name = '{}.html'.format(article_html_name)
         item['url_local'] = os.path.join('html', html_name)
-        page_store = os.path.join(spider.tmpdir, item['url_local'])
+        page_store = os.path.join(spider.build_source_dir, item['url_local'])
 
         # 将item中的生成字段添加到post中
         idx = 0

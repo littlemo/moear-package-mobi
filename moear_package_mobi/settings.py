@@ -119,10 +119,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'template')
 
 BUILD_DIR = os.path.join(BASE_DIR, 'build')
-MOBI_DIR = os.path.join(BUILD_DIR, 'mobi')
-TEMP_DIR = os.path.join(BUILD_DIR, 'temp')
+BUILD_SOURCE_DIR = os.path.join(BUILD_DIR, 'source')
 
-IMAGES_STORE = os.path.join(TEMP_DIR, 'images')
+IMAGES_STORE = os.path.join(BUILD_SOURCE_DIR, 'images')
 IMAGES_THUMBS = {
     'kindle': (600, 800),
 }

@@ -14,12 +14,10 @@ class CrawlerScript():
         settings.setmodule(config)
 
         _build_dir = self.options.get('package_build_dir')
-        _mobi_dir = os.path.join(_build_dir, 'mobi')
-        _temp_dir = os.path.join(_build_dir, 'temp')
-        _images_store = os.path.join(_temp_dir, 'images')
+        _build_source_dir = os.path.join(_build_dir, 'source')
+        _images_store = os.path.join(_build_source_dir, 'images')
         settings.set('BUILD_DIR', _build_dir)
-        settings.set('MOBI_DIR', _mobi_dir)
-        settings.set('TEMP_DIR', _temp_dir)
+        settings.set('BUILD_SOURCE_DIR', _build_source_dir)
         settings.set('IMAGES_STORE', _images_store)
 
         if self.options.get('img_reduce_to'):
