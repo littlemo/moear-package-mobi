@@ -90,7 +90,7 @@ class PagePersistentPipeline(object):
         item['content'] = str(soup.div)
 
         # 将item['content']保存到本地
-        article_html_name = hashlib.sha1(to_bytes(item['url'])).hexdigest()
+        article_html_name = hashlib.md5(to_bytes(item['url'])).hexdigest()
         html_name = '{}.html'.format(article_html_name)
         item['url_local'] = os.path.join('html', html_name)
         page_store = os.path.join(spider.build_source_dir, item['url_local'])
