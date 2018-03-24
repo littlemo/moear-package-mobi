@@ -51,7 +51,7 @@ class Mobi(base.PackageBase):
             crawler.crawl(data, self.spider, *args, **kwargs)
 
             output_file = os.path.join(
-                self.options['package_build_dir'], 'mobi', 'output.mobi')
+                self.options['package_build_dir'], 'source', 'moear.mobi')
             with open(output_file, 'rb') as fh:
                 content = fh.read()
 
