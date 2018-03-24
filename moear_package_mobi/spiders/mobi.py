@@ -44,7 +44,8 @@ class MobiSpider(scrapy.Spider):
         """
         # 工作&输出路径
         self.template_dir = self.settings.get('TEMPLATE_DIR')
-        shutil.rmtree(self.settings.get('BUILD_DIR'), ignore_errors=True)
+        shutil.rmtree(
+            self.settings.get('BUILD_SOURCE_DIR'), ignore_errors=True)
         self.build_source_dir = utils.mkdirp(
             self.settings.get('BUILD_SOURCE_DIR'))
 
