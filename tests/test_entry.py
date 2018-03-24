@@ -80,4 +80,4 @@ class TestSpiderEntryMethods(unittest.TestCase):
         utils.mkdirp(_build_dir)  # 用于不指定build_dir时的输出路径创建，仅用于当前测试
         with open(os.path.join(_build_dir, 'output.mobi'), 'wb') as fh:
             fh.write(rc)
-        self.assertIsInstance(rc, str)
+        self.assertIsInstance(rc, bytes)
