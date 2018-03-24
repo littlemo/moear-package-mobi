@@ -45,8 +45,7 @@ class Mobi(base.PackageBase):
         :returns: str, 返回生成的书籍打包输出字符串
         """
         with tempfile.TemporaryDirectory() as tmpdirname:
-            if not self.options.get('package_build_dir'):
-                self.options['package_build_dir'] = tmpdirname
+            self.options.setdefault('package_build_dir', tmpdirname)
             crawler = CrawlerScript(self.options)
             crawler.crawl(data, self.spider, *args, **kwargs)
 
