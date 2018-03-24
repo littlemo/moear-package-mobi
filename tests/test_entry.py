@@ -16,7 +16,7 @@ sh.setFormatter(format)
 log.addHandler(sh)
 
 _base_dir = os.path.dirname(os.path.abspath(__file__))
-_build_dir = os.path.join(_base_dir, '..', 'build')
+_build_dir = os.path.join(_base_dir, '..', 'moear_package_mobi', 'build')
 
 
 class TestSpiderEntryMethods(unittest.TestCase):
