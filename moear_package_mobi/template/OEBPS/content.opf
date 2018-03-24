@@ -8,7 +8,7 @@
       <dc:creator>{{ spider.author }}</dc:creator>
       <dc:publisher>{{ spider.display_name|escape }}</dc:publisher>
       {#- <dc:subject></dc:subject> #}
-      <dc:date>{{ options.timestamp }}</dc:date>
+      <dc:date>{{ options.publish_date }}</dc:date>
       <dc:description>{{ spider.description }}</dc:description>
       {#- <dc:rights></dc:rights> #}
     </dc-metadata>

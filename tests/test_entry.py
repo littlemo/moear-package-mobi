@@ -68,7 +68,7 @@ class TestSpiderEntryMethods(unittest.TestCase):
             }
         }
         usermeta = {
-            'timestamp': '2018-03-17',
+            'publish_date': '2018-03-17',
 
             # 测试时额外指定构建路径
             'package_build_dir': _build_dir,
