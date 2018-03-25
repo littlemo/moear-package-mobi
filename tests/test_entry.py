@@ -50,7 +50,7 @@ class TestSpiderEntryMethods(unittest.TestCase):
             ])
         ])
         spider = {
-            'name': 'zhihudaily',
+            'name': 'zhihu_daily',
             'display_name': '知乎日报',
             'author': '小貘',
             'email': 'xxx@xxx.com',
