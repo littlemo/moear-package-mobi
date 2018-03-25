@@ -63,7 +63,7 @@ class TestSpiderEntryMethods(unittest.TestCase):
                 # 关闭toc中的缩略图显示
                 'toc_thumbnail_generate': False,
 
-                'image_filter': ['zhihu.com/equation'],
+                'image_filter': '["zhihu.com/equation"]',
                 'css_package':
                     '/Users/moore/Develop/moear/plugin/moear-spider-zhihudail'
                     'y/moear_spider_zhihudaily/assets/css/package.css',

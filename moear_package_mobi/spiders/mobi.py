@@ -2,6 +2,7 @@
 import os
 import re
 import copy
+import json
 import codecs
 import shutil
 import datetime
@@ -95,6 +96,7 @@ class MobiSpider(scrapy.Spider):
 
     @staticmethod
     def filter_images_urls(image_urls, image_filter):
+        image_filter = json.loads(image_filter, encoding='utf-8')
         rc = copy.deepcopy(image_urls)
         rc_removed = []
         for i in image_urls:

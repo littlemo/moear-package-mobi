@@ -1,4 +1,5 @@
 import sys
+from json.decoder import JSONDecodeError
 import logging
 import unittest
 
@@ -23,10 +24,7 @@ class TestSpiderMobiMethods(unittest.TestCase):
             'https://pic3.zhimg.com/v2-46e7a28b89f7e5351355af36c7221cee.jpg',
             'https://pic2.zhimg.com/equation?tex=f7e5351355af36c7221cee.jpg',
         ]
-        self.image_filter = [
-            'v2-46e7a28b89',
-            'equation\?tex=',
-        ]
+        self.image_filter = '["com/v2-46e7a", "equation\\\\?tex="]'
 
     def test_000_filter_images_urls_with_list_filter(self):
         """测试传入列表过滤器到图片链接列表过滤器方法中"""
@@ -41,7 +39,7 @@ class TestSpiderMobiMethods(unittest.TestCase):
     def test_001_filter_images_urls_with_str_filter(self):
         """测试传入单字串过滤器参数到图片列表过滤器方法中"""
         rc, rc_removed = mobi.MobiSpider.filter_images_urls(
-            self.image_urls, self.image_filter[1])
+            self.image_urls, '["equation\\\\?tex="]')
         log.debug(rc)
         self.assertNotIn(self.image_urls[2], rc)
         self.assertIn(self.image_urls[2], rc_removed)
@@ -50,14 +48,15 @@ class TestSpiderMobiMethods(unittest.TestCase):
         """测试传入非法类型的过滤器参数到图片列表过滤器中"""
         try:
             mobi.MobiSpider.filter_images_urls(
-                self.image_urls, ('equation\?tex='))
+                self.image_urls, 'equation\\\\?tex=')
+            raise Exception('未如预期抛出 JSONDecodeError')
         except Exception as e:
-            self.assertTrue(isinstance(e, TypeError))
+            self.assertTrue(isinstance(e, JSONDecodeError))
 
     def test_003_filter_images_urls_with_null_str_filter(self):
         """测试传入空字符串类型的过滤器参数到图片列表过滤器中"""
         rc, rc_removed = mobi.MobiSpider.filter_images_urls(
-            self.image_urls, '')
+            self.image_urls, '[""]')
         log.debug(rc)
         self.assertEqual(rc, self.image_urls)
         self.assertEqual(rc_removed, [])
@@ -65,7 +64,7 @@ class TestSpiderMobiMethods(unittest.TestCase):
     def test_004_filter_images_urls_with_null_list_filter(self):
         """测试传入空字符串类型的过滤器参数到图片列表过滤器中"""
         rc, rc_removed = mobi.MobiSpider.filter_images_urls(
-            self.image_urls, [])
+            self.image_urls, '[]')
         log.debug(rc)
         self.assertEqual(rc, self.image_urls)
         self.assertEqual(rc_removed, [])
