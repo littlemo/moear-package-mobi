@@ -21,6 +21,8 @@
 <div class="pagebreak"></div>
 {%- endif %}
 {{ post.content }}
+{%- if not post.last_one %}
 <div class="pagebreak"></div>
+{%- endif %}
 </body>
 </html>

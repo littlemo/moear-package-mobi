@@ -108,6 +108,10 @@ class PagePersistentPipeline(object):
                     p['content'] = item.get('content')
                     p['url_local'] = item.get('url_local')
                     p['toc_thumbnail'] = item.get('toc_thumbnail')
+
+                    # 若为最后一篇文章，则添加相应标志
+                    if idx == spider.post_num:
+                        p['last_one'] = True
                     break
 
         # 创建目标dirname

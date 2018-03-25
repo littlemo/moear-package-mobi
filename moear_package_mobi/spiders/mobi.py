@@ -36,6 +36,11 @@ class MobiSpider(scrapy.Spider):
             self.options['publish_date'] = datetime.date.today() \
                 .strftime('%Y-%m-%d')
 
+        # 获取 data 中的总文章数
+        self.post_num = 0
+        for section in data:
+            self.post_num += len(section[1])
+
         # 为了触发parse方法，就暂时辛苦下网络测试专用站啦（大雾~~
         self.start_urls = ['https://www.baidu.com']
 
