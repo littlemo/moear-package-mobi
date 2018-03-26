@@ -42,7 +42,7 @@ class Mobi(base.PackageBase):
         MoEar会将其持久化并用于之后的推送任务
 
         :params data dict: 待打包的数据结构
-        :returns: str, 返回生成的书籍打包输出字符串
+        :returns: (bytes, ext), 返回生成的书籍打包输出字节与格式扩展名
         """
         with tempfile.TemporaryDirectory() as tmpdirname:
             self.options.setdefault('package_build_dir', tmpdirname)
@@ -54,4 +54,4 @@ class Mobi(base.PackageBase):
             with open(output_file, 'rb') as fh:
                 content = fh.read()
 
-        return content
+        return content, 'mobi'

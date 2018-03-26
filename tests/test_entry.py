@@ -78,13 +78,14 @@ class TestSpiderEntryMethods(unittest.TestCase):
             # 用于测试生成 custom.css
             'extra_css': '.test {margin: 0 auto;}'
         }
-        rc = entry.Mobi(spider, usermeta=usermeta).generate(data)
+        rc, ext = entry.Mobi(spider, usermeta=usermeta).generate(data)
         _build_output_dir = os.path.join(_build_dir, 'output')
         _mobi_filename = \
-            '{spider_display_name}[{publish_date}]_{md5}.mobi'.format(
+            '{spider_display_name}[{publish_date}]_{md5}.{ext}'.format(
                 spider_display_name=spider.get('display_name'),
                 publish_date=usermeta.get('publish_date'),
-                md5=hashlib.md5(rc).hexdigest()[:16].upper())
+                md5=hashlib.md5(rc).hexdigest()[:16].upper(),
+                ext=ext)
         utils.mkdirp(_build_output_dir)  # 用于不指定build_dir时的输出路径创建，仅用于当前测试
         with open(os.path.join(_build_output_dir, _mobi_filename), 'wb') as fh:
             fh.write(rc)
