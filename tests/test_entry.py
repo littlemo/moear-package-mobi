@@ -76,7 +76,10 @@ class TestSpiderEntryMethods(unittest.TestCase):
             'package_build_dir': _build_dir,
 
             # 用于测试生成 custom.css
-            'extra_css': '.test {margin: 0 auto;}'
+            'extra_css': '.test {margin: 0 auto;}',
+
+            # 指定KindleGen路径
+            # 'kindlegen_path': _base_dir,
         }
         rc, ext = entry.Mobi(spider, usermeta=usermeta).generate(data)
         _build_output_dir = os.path.join(_build_dir, 'output')
