@@ -1,5 +1,5 @@
 import os
-import sys
+# import sys
 import logging
 import hashlib
 import unittest
@@ -10,11 +10,11 @@ from moear_package_mobi import entry
 
 
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
-format = logging.Formatter("%(asctime)s - %(message)s")  # output format
-sh = logging.StreamHandler(stream=sys.stdout)  # output to standard output
-sh.setFormatter(format)
-log.addHandler(sh)
+# log.setLevel(logging.DEBUG)
+# format = logging.Formatter("%(asctime)s - %(message)s")  # output format
+# sh = logging.StreamHandler(stream=sys.stdout)  # output to standard output
+# sh.setFormatter(format)
+# log.addHandler(sh)
 
 _base_dir = os.path.dirname(os.path.abspath(__file__))
 _build_dir = os.path.join(_base_dir, '..', 'moear_package_mobi', 'build')
