@@ -42,6 +42,13 @@ class MobiSpider(scrapy.Spider):
         for section in data:
             self.post_num += len(section[1])
 
+        # 获取并设置 kindlegen 文件路径
+        kindlegen_path = self.options.get('kindlegen_path', '')
+        self.kg = kindlegen.find_kindlegen_prog(kindlegen_path)
+        self._logger.debug('检测到 KindleGen => {}'.format(self.kg))
+        if not self.kg:
+            raise ValueError('未检测到 KindleGen 文件路径')
+
         # 为了触发parse方法，就暂时辛苦下网络测试专用站啦（大雾~~
         self.start_urls = ['https://www.baidu.com']
 
@@ -118,13 +125,8 @@ class MobiSpider(scrapy.Spider):
         return rc, rc_removed
 
     def generate_mobi_file(self):
-        current_package_dir = os.path.dirname(os.path.dirname(
-            os.path.abspath(__file__)))
-        kg = kindlegen.find_kindlegen_prog(current_package_dir)
-        self._logger.debug('获取到 KindleGen => {}'.format(kg))
-
         opf_file = os.path.join(self.build_source_dir, 'moear.opf')
-        command_list = [kg, opf_file, '-dont_append_source']
+        command_list = [self.kg, opf_file, '-dont_append_source']
         output = subprocess.Popen(
             command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             shell=False).communicate()
