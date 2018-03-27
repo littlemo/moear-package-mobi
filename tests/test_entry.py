@@ -80,13 +80,26 @@ class TestSpiderEntryMethods(unittest.TestCase):
         }
         rc, ext = entry.Mobi(spider, usermeta=usermeta).generate(data)
         _build_output_dir = os.path.join(_build_dir, 'output')
+        posts = []
+        for section in data.items():
+            for post in section[1]:
+                posts.append(post)
         _mobi_filename = \
             '{spider_display_name}[{publish_date}]_{md5}.{ext}'.format(
                 spider_display_name=spider.get('display_name'),
                 publish_date=usermeta.get('publish_date'),
-                md5=hashlib.md5(rc).hexdigest()[:16].upper(),
+                md5=self._md5_posts_list(posts),
                 ext=ext)
+        log.info('输出文件名: {}'.format(_mobi_filename))
         utils.mkdirp(_build_output_dir)  # 用于不指定build_dir时的输出路径创建，仅用于当前测试
         with open(os.path.join(_build_output_dir, _mobi_filename), 'wb') as fh:
             fh.write(rc)
         self.assertIsInstance(rc, bytes)
+
+    @staticmethod
+    def _md5_posts_list(posts):
+        origin_url_list = [post.get('origin_url', '') for post in posts]
+        log.debug('origin_url_list: {}'.format(origin_url_list))
+        origin_url_str = ''.join(origin_url_list)
+        return hashlib.md5(origin_url_str.encode(
+            'utf-8')).hexdigest()[:16].upper()
