@@ -39,7 +39,7 @@ class MobiSpider(scrapy.Spider):
 
         # 获取 data 中的总文章数
         self.post_num = 0
-        for section in data:
+        for section in data.items():
             self.post_num += len(section[1])
         self._logger.info('文章总数: {}'.format(self.post_num))
 
