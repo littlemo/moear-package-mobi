@@ -111,6 +111,8 @@ class PagePersistentPipeline(object):
 
                     # 若为最后一篇文章，则添加相应标志
                     if idx == spider.post_num:
+                        spider._logger.info(
+                            '标记为最后一篇文章: {}'.format(p.get('title')))
                         p['last_one'] = True
                     break
 

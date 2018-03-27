@@ -41,6 +41,7 @@ class MobiSpider(scrapy.Spider):
         self.post_num = 0
         for section in data:
             self.post_num += len(section[1])
+        self._logger.info('文章总数: {}'.format(self.post_num))
 
         # 获取并设置 kindlegen 文件路径
         kindlegen_path = self.options.get('kindlegen_path', '')
