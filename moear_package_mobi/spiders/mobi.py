@@ -127,7 +127,7 @@ class MobiSpider(scrapy.Spider):
 
     def generate_mobi_file(self):
         opf_file = os.path.join(self.build_source_dir, 'moear.opf')
-        command_list = [self.kg, opf_file, '-dont_append_source']
+        command_list = [self.kg, opf_file]
         output = subprocess.Popen(
             command_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             shell=False).communicate()
