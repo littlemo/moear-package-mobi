@@ -31,7 +31,9 @@ class Mobi(base.PackageBase):
 
         :returns: dict, 返回当前类的自定义配置项
         """
-        return {}
+        return {
+            'filename_extension': 'mobi',
+        }
 
     def generate(self, data, *args, **kwargs):
         """
@@ -42,7 +44,8 @@ class Mobi(base.PackageBase):
         MoEar会将其持久化并用于之后的推送任务
 
         :params data dict: 待打包的数据结构
-        :returns: (bytes, ext), 返回生成的书籍打包输出字节与格式扩展名
+        :return: 返回生成的书籍打包输出字节
+        :rtype: bytes
         """
         with tempfile.TemporaryDirectory() as tmpdirname:
             self.options.setdefault('package_build_dir', tmpdirname)
@@ -54,4 +57,4 @@ class Mobi(base.PackageBase):
             with open(output_file, 'rb') as fh:
                 content = fh.read()
 
-        return content, 'mobi'
+        return content
