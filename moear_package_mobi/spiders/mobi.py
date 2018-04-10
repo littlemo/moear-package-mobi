@@ -19,6 +19,11 @@ from moear_api_common.utils import kindlegen
 
 
 class MobiSpider(scrapy.Spider):
+    '''
+    打包爬虫，主要工作为将文章内容中的图片进行本地化、压缩、灰度，最终基于
+    `Kindlegen <https://www.amazon.com/gp/feature.html?docId=1000765211>`_
+    工具，打包输出为 ``mobi`` 格式的电子书
+    '''
     name = 'mobi'
 
     def __init__(self, data, spider, *args, **kwargs):
@@ -57,7 +62,7 @@ class MobiSpider(scrapy.Spider):
 
     def parse(self, response):
         """
-        从self.data中将文章信息格式化为item
+        从 self.data 中将文章信息格式化为 :class:`.MoearPackageMobiItem`
         """
         # 工作&输出路径
         self.template_dir = self.settings.get('TEMPLATE_DIR')
@@ -104,6 +109,14 @@ class MobiSpider(scrapy.Spider):
 
     @staticmethod
     def filter_images_urls(image_urls, image_filter):
+        '''
+        图片链接过滤器，根据传入的过滤器规则，对图片链接列表进行过滤并返回结果列表
+
+        :param list(str) image_urls: 图片链接字串列表
+        :param list(str) image_filter: 过滤器字串列表
+        :return: 过滤后的结果链接列表，以及被过滤掉的链接列表
+        :rtype: list(str), list(str)
+        '''
         image_filter = json.loads(image_filter, encoding='utf-8')
         rc = copy.deepcopy(image_urls)
         rc_removed = []
@@ -126,6 +139,10 @@ class MobiSpider(scrapy.Spider):
         return rc, rc_removed
 
     def generate_mobi_file(self):
+        '''
+        使用 :mod:`subprocess` 模块调用 ``kindlegen`` 工具，
+        将已准备好的书籍源文件编译生成 ``mobi`` 文件
+        '''
         opf_file = os.path.join(self.build_source_dir, 'moear.opf')
         command_list = [self.kg, opf_file]
         output = subprocess.Popen(
@@ -138,6 +155,10 @@ class MobiSpider(scrapy.Spider):
             self._logger.error(output[1].decode())
 
     def closed(self, reason):
+        '''
+        异步爬取本地化处理完成后，使用结果数据，进行输出文件的渲染，渲染完毕，
+        调用 :meth:`.MobiSpider.generate_mobi_file` 方法，生成目标 ``mobi`` 文件
+        '''
         # 拷贝封面&报头图片文件
         utils.mkdirp(os.path.join(self.build_source_dir, 'images'))
         self._logger.info(self.options)
