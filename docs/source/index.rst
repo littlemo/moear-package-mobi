@@ -22,6 +22,12 @@ moear-package-mobi
    module/mobi
 
 
+.. toctree::
+   :caption: 开发进程
+
+   development/release
+
+
 索引表
 ======
 
