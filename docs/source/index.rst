@@ -8,7 +8,9 @@ moear-package-mobi
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: First steps
+
+   intro/overview
 
 
 .. toctree::
