@@ -11,6 +11,11 @@ moear-package-mobi
    :caption: Contents:
 
 
+.. toctree::
+   :caption: 模块文档
+
+   module/entry
+
 
 索引表
 ======
