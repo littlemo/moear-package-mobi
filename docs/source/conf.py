@@ -16,7 +16,6 @@ import os
 import sys
 import sphinx_rtd_theme
 sys.path.insert(0, os.path.abspath('../..'))
-sys.path.insert(0, os.path.abspath('../../venv/lib/python3.5/site-packages/'))
 
 
 # -- Project information -----------------------------------------------------
