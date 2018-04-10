@@ -12,7 +12,6 @@ log = logging.getLogger(__name__)
 class Mobi(base.PackageBase):
     """
     Mobi打包
-    ========
 
     用以实现基于kindlegen的mobi打包工具
 
@@ -23,13 +22,11 @@ class Mobi(base.PackageBase):
     """
     def hook_custom_options(self):
         """
-        配置定制配置项钩子
-        ------------
-
         该方法返回当前类的自定义配置项，由基类在 ``__init__`` 方法中调用，
         调用点位于，Common默认全局配置完成后，Spider元数据、用户元数据配置前
 
-        :returns: dict, 返回当前类的自定义配置项
+        :return: 返回当前类的自定义配置项
+        :rtype: dict
         """
         return {
             'filename_extension': 'mobi',
@@ -37,13 +34,10 @@ class Mobi(base.PackageBase):
 
     def generate(self, data, *args, **kwargs):
         """
-        生成
-        ----
-
-        根据传入的数据结构生成最终用于推送的文件字节字符串对象(byteStringIO)，
+        根据传入的数据结构生成最终用于推送的文件字节字符串( :func:`bytes` )，
         MoEar会将其持久化并用于之后的推送任务
 
-        :params data dict: 待打包的数据结构
+        :param dict data: 待打包的数据结构
         :return: 返回生成的书籍打包输出字节
         :rtype: bytes
         """
