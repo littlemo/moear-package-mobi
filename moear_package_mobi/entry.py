@@ -15,7 +15,7 @@ class Mobi(base.PackageBase):
 
     用以实现基于kindlegen的mobi打包工具
 
-    .. tip::
+    .. note::
 
         其中的模板实现，参考于
         `Kindle 期刊杂志格式排版的电子书制作教程 <https://www.imahui.com/notes/496.html>`_
