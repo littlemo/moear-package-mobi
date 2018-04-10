@@ -15,6 +15,7 @@ moear-package-mobi
    :caption: 模块文档
 
    module/entry
+   module/item
 
 
 索引表
