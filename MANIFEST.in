@@ -1,0 +1,4 @@
+graft moear_package_mobi/template
+global-exclude .DS_Store
+prune docs/build
+prune moear_package_mobi/build
