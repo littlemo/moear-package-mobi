@@ -25,6 +25,42 @@
     pip install moear-package-mobi
 
 
+项目结构
+========
+
+包路径说明如下::
+
+    .
+    ├── __init__.py
+    ├── crawler_script.py       # 用于提供可程序调用Scrapy的爬行类
+    ├── entry.py                # 实现接口定义的入口文件
+    ├── items.py                # Scrapy 的数据模型
+    ├── middlewares.py          # Scrapy 的中间件
+    ├── pipelines.py            # Scrapy 的流水线
+    ├── settings.py             # Scrapy 的参数设置
+    ├── spiders                 # Scrapy 的具体爬虫实现路径
+    │   ├── __init__.py
+    │   └── mobi.py             # mobi打包的爬虫主体
+    └── template                # 模板路径，用来存储用于生成mobi源文件的Jinja模板
+        ├── OEBPS
+        │   ├── content.opf     # 内容清单模板
+        │   ├── toc.html        # html格式的目录模板
+        │   └── toc.ncx         # ncx格式的目录模板
+        └── post.html           # 文章内容模板
+
+.. attention::
+
+    开发时注意需要在 ``setup.py`` 中添加如下配置，以便 `stevedore`_ 加载该插件::
+
+        entry_points={
+            'moear.package': [
+                'mobi = moear_package_mobi.entry:Mobi',
+            ],
+        },
+
+    参考 `stevedore`_ 文档，将第三行内容替换为您的具体实现即可
+
+
 .. _MoEar: https://github.com/littlemo/moear
 .. _Scrapy: https://github.com/scrapy/scrapy
 .. _KindleGen: https://www.amazon.com/gp/feature.html?docId=1000765211
