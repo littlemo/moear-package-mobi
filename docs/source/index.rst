@@ -17,6 +17,7 @@ moear-package-mobi
    module/entry
    module/item
    module/pipelines
+   module/mobi
 
 
 索引表
