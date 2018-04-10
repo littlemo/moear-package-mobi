@@ -21,7 +21,7 @@ from moear_api_common.utils import kindlegen
 class MobiSpider(scrapy.Spider):
     '''
     打包爬虫，主要工作为将文章内容中的图片进行本地化、压缩、灰度，最终基于
-    `Kindlegen <https://www.amazon.com/gp/feature.html?docId=1000765211>`_
+    `KindleGen <https://www.amazon.com/gp/feature.html?docId=1000765211>`_
     工具，打包输出为 ``mobi`` 格式的电子书
     '''
     name = 'mobi'
@@ -140,7 +140,7 @@ class MobiSpider(scrapy.Spider):
 
     def generate_mobi_file(self):
         '''
-        使用 :mod:`subprocess` 模块调用 ``kindlegen`` 工具，
+        使用 :mod:`subprocess` 模块调用 ``KindleGen`` 工具，
         将已准备好的书籍源文件编译生成 ``mobi`` 文件
         '''
         opf_file = os.path.join(self.build_source_dir, 'moear.opf')
