@@ -19,7 +19,7 @@ from moear_api_common.utils import img
 
 class MoEarImagesPipeline(ImagesPipeline):
     """
-    定制ImagesPipeline，实现图片保存路径的自定义
+    实现图片定制化处理操作
     """
     def file_path(self, request, response=None, info=None):
         url = super(MoEarImagesPipeline, self).file_path(
@@ -29,6 +29,13 @@ class MoEarImagesPipeline(ImagesPipeline):
         return url
 
     def item_completed(self, results, item, info):
+        '''
+        在正常图片本地化处理管道业务执行完毕后，使用缩略图路径替换原 ``result[path]`` 路径，
+        从而使最终打包时使用缩略图，并根据配置，对缩略图进行灰度处理
+
+        :param item: 爬取到的数据模型
+        :type item: :class:`.MoearPackageMobiItem` or dict
+        '''
         # 处理 results 中的 path 使用缩略图路径替代
         for ok, result in results:
             if not ok:
@@ -59,9 +66,22 @@ class MoEarImagesPipeline(ImagesPipeline):
 
 class PagePersistentPipeline(object):
     """
-    将爬取到的文章内容持久化到指定路径
+    将爬取到的文章内容本地化到指定路径
     """
     def process_item(self, item, spider):
+        '''
+        将从图片处理管道流过的数据模型中的缩略图链接更新到文章中的相应图片 URL 上，
+        并对其中的，已删除图片 ``item['image_urls_removed']`` 进行处理，
+        使其显示内建的删除图标。
+
+        最终使用文章模板，对数据模型中的数据进行渲染并输出到指定路径中，完成本地化，
+        等待最终 ``mobi`` 打包
+
+        :param item: 爬取到的数据模型
+        :type item: :class:`.MoearPackageMobiItem` or dict
+        :param spider: 当前爬虫对象
+        :type spider: :class:`.MobiSpider`
+        '''
         soup = BeautifulSoup(item.get('content', ''), "lxml")
         if item.get('images'):
             # 将content中的全部img替换为本地化后的url
