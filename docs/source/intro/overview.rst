@@ -61,10 +61,35 @@
     参考 `stevedore`_ 文档，将第三行内容替换为您的具体实现即可
 
 
-.. _MoEar: https://github.com/littlemo/moear
-.. _Scrapy: https://github.com/scrapy/scrapy
+业务流程
+========
+
+书籍生成
+--------
+
+主要功能为根据传入的文章列表数据，将其中的图片链接下载到本地，最终打包到 mobi 中。
+并将文章内容中相应的图片链接替换为本地相对路径后，通过文章内容模板渲染后保存到本地。
+最终，根据模板生成相关清单、目录等文件，拷贝封面、报头等图片后，进行整体 mobi 打包。
+
+此处我是用 `Scrapy`_ 主要目的即为，对图片的异步下载，以及缩略图生成等操作。
+您完全可以使用其他框架或手写 ``Request`` 来实现图片下载工作。
+
+.. hint::
+
+    该方法会在 `Celery`_ 的单独进程中被调用
+
+.. note::
+
+    传入的文章列表数据，可参考 `moear-api-common`_ 中， ``SpiderBase.format`` 的实现。
+    具体用例可参考 `moear-spider-zhihudaily`_ 中相关章节的用例说明，里面有很详尽的描述
+
+
+.. _MoEar: http://moear.rtfd.io
+.. _Scrapy: http://scrapy.rtfd.io
 .. _KindleGen: https://www.amazon.com/gp/feature.html?docId=1000765211
-.. _moear-api-common: https://github.com/littlemo/moear-api-common
+.. _moear-api-common: http://moear-api-common.rtfd.io
+.. _moear-spider-zhihudaily: http://moear-spider-zhihudaily.rtfd.io
+.. _Celery: http://docs.celeryproject.org
 .. _KindleEar: https://github.com/cdhigh/KindleEar
 .. _Calibre: https://github.com/kovidgoyal/calibre
 .. _stevedore: https://docs.openstack.org/stevedore/latest/
