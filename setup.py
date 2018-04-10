@@ -10,7 +10,7 @@ setup(
     author_email='moore@moorehy.com',
     maintainer='littlemo',
     maintainer_email='moore@moorehy.com',
-    version='1.0.0a1',
+    version='1.0.0a2',
     description='MoEar打包功能扩展插件 - Mobi',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
