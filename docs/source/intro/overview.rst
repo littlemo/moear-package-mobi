@@ -11,6 +11,12 @@
 中定义的相关接口即可。
 
 
+安装方法
+========
+
+您可以通过 ``pip`` 进行安装，本包仅在 ``Python 3.X`` 下测试通过::
+
+    pip install moear-package-mobi
 
 
 .. _MoEar: https://github.com/littlemo/moear
