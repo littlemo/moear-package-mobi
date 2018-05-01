@@ -153,6 +153,7 @@ class MobiSpider(scrapy.Spider):
             output[0].decode()))
         if output[1]:
             self._logger.error(output[1].decode())
+            raise IOError('KindleGen转换失败: {}'.format(output[1]))
 
     def closed(self, reason):
         '''
