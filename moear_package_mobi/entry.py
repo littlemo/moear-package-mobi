@@ -30,6 +30,13 @@ class Mobi(base.PackageBase):
         """
         return {
             'filename_extension': 'mobi',
+            'kindlegen_unsupport_tag': [
+                'iframe', 'audio', 'base',
+                'canvas', 'command', 'datalist',
+                'eventsource', 'form', 'input',
+                'keygen', 'marquee', 'noscript',
+                'param', 'video',
+            ],
         }
 
     def generate(self, data, *args, **kwargs):

@@ -107,6 +107,15 @@ class PagePersistentPipeline(object):
                     item['toc_thumbnail'] = os.path.join(
                         'images', result['path'])
                     break
+
+        # 过滤掉不支持的标签
+        unsupport_tag = spider.options.get('kindlegen_unsupport_tag', [])
+        for tag in unsupport_tag:
+            for i in soup.find_all(tag):
+                delete_img = soup.new_tag('img')
+                delete_img['src'] = '../icons/delete.jpg'
+                i.replace_with(delete_img)
+
         item['content'] = str(soup.div)
 
         # 将item['content']保存到本地
