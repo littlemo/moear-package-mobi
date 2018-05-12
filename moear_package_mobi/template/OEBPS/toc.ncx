@@ -33,8 +33,10 @@
             {{- p.title|escape -}}
           </text></navLabel>
           <content src="../{{ p.url_local }}" />
-          {%- if p.excerpt %}
+          {%- if p.author %}
           <mbp:meta name="author">{{ p.author }}</mbp:meta>
+          {%- endif %}
+          {%- if p.excerpt %}
           <mbp:meta name="description">{{ p.excerpt }}</mbp:meta>
           {%- endif %}
           {%- if options.toc_thumbnail_generate and p.toc_thumbnail %}
