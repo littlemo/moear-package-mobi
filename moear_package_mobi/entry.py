@@ -37,6 +37,9 @@ class Mobi(base.PackageBase):
                 'keygen', 'marquee', 'noscript',
                 'param', 'video',
             ],
+            'common_image_filter': [  # 通用图片过滤器，必须遵守的
+                r'^[^:]*$',  # 过滤掉行中没有 ':' 的链接
+            ],
         }
 
     def generate(self, data, *args, **kwargs):
