@@ -98,7 +98,7 @@ class MobiSpider(scrapy.Spider):
                     '待处理的图片url(过滤前): {}'.format(item['image_urls']))
                 item['image_urls'], item['image_urls_removed'] = \
                     self.filter_images_urls(
-                        item['image_urls'], image_filter， common_image_filter)
+                        item['image_urls'], image_filter, common_image_filter)
                 self._logger.debug(
                     '待处理的图片url: {}'.format(item['image_urls']))
 
