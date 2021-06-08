@@ -31,7 +31,7 @@ setup(
         'billiard~=3.5.0.3',
         'Jinja2~=2.10',
         'moear-api-common~=1.0.2',
-        'Pillow~=5.0.0',
+        'Pillow>=5.0,<8.3',
         'Scrapy~=1.5.0',
     ],
     entry_points={
