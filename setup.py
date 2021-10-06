@@ -32,7 +32,7 @@ setup(
         'Jinja2~=2.10',
         'moear-api-common~=1.0.2',
         'Pillow~=5.0.0',
-        'Scrapy~=1.5.0',
+        'Scrapy>=1.5,<1.9',
     ],
     entry_points={
         'moear.package': [
